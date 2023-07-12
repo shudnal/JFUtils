@@ -78,7 +78,7 @@ namespace Test
 		        SpawnAltitude = new(10, 200)
 		    };
 			
-		    JFHelperLite.Initialize(Info);
+		    JFHelperLite.Initialize(Logger);
 		    JFHelperLite.FixMusicLocation(bundle, "TestTown");
 		    JFHelperLite.FixMusicLocation("vilage", "SecondTown");
 		}
