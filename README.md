@@ -1,6 +1,7 @@
 # JF Helper
 
 Can be used to easily fix some things. For programmers it also adds some usefull utils.
+If you have any questions or suggestions please message me in disscord: ```justafrogger```
 
 ### Merging the DLLs into your mod
 
