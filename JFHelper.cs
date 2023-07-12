@@ -99,4 +99,5 @@ public class JFHelper
         var vanilaMusic = GetVanilaMusic(musicLocation.m_audioSource.clip.name, showErrorIfCantFindAudioClip);
         if (vanilaMusic) musicLocation.m_audioSource.clip = vanilaMusic;
     }
+    //
 }
