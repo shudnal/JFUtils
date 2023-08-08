@@ -1,0 +1,18 @@
+﻿global using System;
+global using System.Collections;
+global using System.Collections.Generic;
+global using System.Linq;
+global using HarmonyLib;
+global using UnityEngine;
+global using static UnityEngine.Object;
+global using Object = UnityEngine.Object;
+global using Random = UnityEngine.Random;
+global using static UnityEngine.ScriptableObject;
+global using Extensions;
+global using Extensions.Valheim;
+global using static ZoneSystem;
+global using static Extensions.Valheim.ModBase;
+global using static ZoneSystem.ZoneLocation;
+global using static ZoneSystem.ZoneVegetation;
+global using static Heightmap;
+global using static Heightmap.Biome;
