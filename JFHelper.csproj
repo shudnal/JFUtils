@@ -56,9 +56,6 @@
         <Reference Include="LocationManager">
           <HintPath>..\Utils\LocationManager.dll</HintPath>
         </Reference>
-        <Reference Include="NPCsSystem">
-          <HintPath>..\..\..\Steam\steamapps\common\Valheim\BepInEx\plugins\NPCsSystem.dll</HintPath>
-        </Reference>
         <Reference Include="ServerSync">
           <HintPath>..\Utils\ServerSync.dll</HintPath>
         </Reference>
