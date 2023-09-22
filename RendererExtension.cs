@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
-using static UnityEngine.Object;
+﻿using System.Threading.Tasks;
 
 namespace Extensions;
 

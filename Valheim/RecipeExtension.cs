@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Extensions.Valheim;
+﻿namespace Extensions.Valheim;
 
 public static class RecipeExtension
 {

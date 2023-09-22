@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using Debug = UnityEngine.Debug;
 
 namespace Extensions;
 
@@ -52,7 +50,7 @@ public static class EnumerableExtension
         if (current.Equals(last)) return list[0];
         if (!list.Contains(current))
         {
-            UnityEngine.Debug.LogWarning($"[{list}.Next] list not contains this element {current}");
+            Debug.LogWarning($"[{list}.Next] list not contains this element {current}");
             return list[0];
         }
 

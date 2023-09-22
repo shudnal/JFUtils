@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace Extensions;
+﻿namespace Extensions;
 
 public struct SimpleVector3 : IEquatable<SimpleVector3>
 {

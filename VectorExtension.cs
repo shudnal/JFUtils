@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Extensions;
+﻿namespace Extensions;
 
 public static class VectorExtension
 {

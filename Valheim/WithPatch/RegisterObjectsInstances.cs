@@ -1,18 +1,17 @@
-﻿using System.Reflection;
+﻿using static System.Reflection.BindingFlags;
 using Debug = UnityEngine.Debug;
-using static System.Reflection.BindingFlags;
 
 namespace Extensions.Valheim.WithPatch;
 
 [HarmonyPatch]
 internal static class RegisterObjectsInstances
 {
-    internal static List<Pickable> AllPickables { get; private set; } = new();
-    internal static List<Plant> AllPlants { get; private set; } = new();
-    internal static List<Door> AllDoors { get; private set; } = new();
-    internal static List<Sign> AllSigns { get; private set; } = new();
+    internal static List<Pickable> AllPickables { get; } = new();
+    internal static List<Plant> AllPlants { get; } = new();
+    internal static List<Door> AllDoors { get; } = new();
+    internal static List<Sign> AllSigns { get; } = new();
     internal static List<Container> AllContainers { get; private set; } = new();
-    internal static List<Bed> AllBeds { get; private set; } = new();
+    internal static List<Bed> AllBeds { get; } = new();
 
     [HarmonyPostfix]
     [HarmonyWrapSafe]
@@ -22,8 +21,10 @@ internal static class RegisterObjectsInstances
     [HarmonyPatch(typeof(Sign), nameof(Sign.Awake))]
     [HarmonyPatch(typeof(Container), nameof(Container.Awake))]
     [HarmonyPatch(typeof(Bed), nameof(Bed.Awake))]
-    private static void AddToInstanceCollection(MonoBehaviour __instance) =>
+    private static void AddToInstanceCollection(MonoBehaviour __instance)
+    {
         __instance.StartCoroutine(enumerator(__instance));
+    }
 
     private static IEnumerator enumerator<T>(T component) where T : MonoBehaviour
     {
