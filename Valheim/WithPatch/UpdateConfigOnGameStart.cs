@@ -1,4 +1,4 @@
-﻿namespace TotemsOfUndying.Patch;
+﻿namespace JFUtils.Valheim.WithPatch;
 
 [HarmonyPatch]
 public class UpdateConfigOnGameStart

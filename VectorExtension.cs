@@ -1,4 +1,4 @@
-﻿namespace Extensions;
+﻿namespace JFUtils;
 
 public static class VectorExtension
 {

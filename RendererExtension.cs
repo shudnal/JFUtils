@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Extensions;
+namespace JFUtils;
 
 public static class RendererExtension
 {

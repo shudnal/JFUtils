@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Extensions;
+namespace JFUtils;
 
 /// <summary>
 ///     Helpful Unity Object extensions.

@@ -1,4 +1,4 @@
-﻿namespace Extensions;
+﻿namespace JFUtils;
 
 public struct SimpleVector2 : IEquatable<SimpleVector2>
 {

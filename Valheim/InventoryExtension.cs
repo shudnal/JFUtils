@@ -1,4 +1,4 @@
-﻿namespace Extensions.Valheim;
+﻿namespace JFUtils.Valheim;
 
 public static class InventoryExtension
 {

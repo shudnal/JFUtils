@@ -3,12 +3,18 @@ using BepInEx;
 using BepInEx.Configuration;
 using ServerSync;
 
-namespace Extensions.Valheim;
+namespace JFUtils.Valheim;
 
 public sealed class ModBase
 {
     private static bool sendDebugMessagesToHud;
     private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
+
+    public static string ModName, ModAuthor, ModVersion, ModGUID;
+    public static ModBase mod;
+    public static BaseUnityPlugin plugin;
+    private readonly Harmony harmony;
+    public Action OnConfigurationChanged;
 
     private ModBase(string modName, string modAuthor, string modVersion)
     {
@@ -50,16 +56,6 @@ public sealed class ModBase
 
     public static implicit operator bool(ModBase modBase) { return modBase != null; }
 
-    #region values
-
-    public static string ModName, ModAuthor, ModVersion, ModGUID;
-    private readonly Harmony harmony;
-    public static ModBase mod;
-    public static BaseUnityPlugin plugin;
-    public Action OnConfigurationChanged;
-
-    #endregion
-
     #region Debug
 
     public static void Debug(object msg)
@@ -93,7 +89,7 @@ public sealed class ModBase
 
     private readonly string ConfigFileName = "-1";
     private DateTime LastConfigChange;
-    internal ConfigSync configSync;
+    public ConfigSync configSync;
     private static ConfigEntry<bool> serverConfigLocked = null!;
 
     public ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,

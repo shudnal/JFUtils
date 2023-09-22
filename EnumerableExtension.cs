@@ -1,6 +1,6 @@
 ﻿using Debug = UnityEngine.Debug;
 
-namespace Extensions;
+namespace JFUtils;
 
 public static class EnumerableExtension
 {

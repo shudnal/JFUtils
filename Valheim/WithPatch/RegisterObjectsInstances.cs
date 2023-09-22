@@ -1,7 +1,7 @@
 ﻿using static System.Reflection.BindingFlags;
 using Debug = UnityEngine.Debug;
 
-namespace Extensions.Valheim.WithPatch;
+namespace JFUtils.Valheim.WithPatch;
 
 [HarmonyPatch]
 internal static class RegisterObjectsInstances
