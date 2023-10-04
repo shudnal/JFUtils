@@ -92,6 +92,7 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ConfigurationManagerAttributes.cs" />
         <Compile Include="EnumerableExtension.cs" />
         <Compile Include="GameObjectExtension.cs" />
         <Compile Include="GlobalUsings.cs" />
@@ -113,9 +114,11 @@
         <Compile Include="Valheim\MinimapExtension.cs" />
         <Compile Include="Valheim\ObjectDBExtension.cs" />
         <Compile Include="Valheim\RecipeExtension.cs" />
+        <Compile Include="Valheim\SkillsExtension.cs" />
         <Compile Include="Valheim\StringExtension.cs" />
         <Compile Include="Valheim\WithPatch\RegisterObjectsInstances.cs" />
         <Compile Include="Valheim\WithPatch\UpdateConfigOnGameStart.cs" />
+        <Compile Include="Valheim\WithPatch\ZoneSystemExtension.cs" />
         <Compile Include="Valheim\ZNetSceneExtension.cs" />
         <Compile Include="Valheim\ZoneSystemExtension.cs" />
         <Compile Include="VectorExtension.cs" />

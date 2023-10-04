@@ -1,5 +1,4 @@
-﻿using static System.Reflection.BindingFlags;
-using Debug = UnityEngine.Debug;
+﻿using Debug = UnityEngine.Debug;
 
 namespace JFUtils.Valheim.WithPatch;
 
@@ -28,7 +27,7 @@ internal static class RegisterObjectsInstances
 
     private static IEnumerator enumerator<T>(T component) where T : MonoBehaviour
     {
-        var m_nview = (ZNetView)component.GetType().GetField("m_nview", NonPublic | Instance).GetValue(component);
+        var m_nview = component.GeZNetView();
         yield return new WaitWhile(() => m_nview.m_ghost || !m_nview.IsValid());
 
         if (component is Pickable pickable)

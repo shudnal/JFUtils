@@ -1,9 +1,22 @@
-﻿using Debug = UnityEngine.Debug;
+﻿using JetBrains.Annotations;
+using Debug = UnityEngine.Debug;
 
 namespace JFUtils;
 
 public static class EnumerableExtension
 {
+    [CanBeNull]
+    public static List<T> _Distinct<T>(this List<T> list)
+    {
+        var distinct = list?.Distinct().ToList();
+        if (distinct != null) list = distinct;
+        return distinct;
+    }
+
+    public static Dictionary<TKey, TValue>
+        Dictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> list) =>
+        list.Select(x => x).ToDictionary(x => x.Key, y => y.Value);
+
     public static T Random<T>(this List<T> list)
     {
         if (list == null || list.Count == 0) return default;

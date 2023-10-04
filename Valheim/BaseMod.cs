@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using ServerSync;
@@ -15,6 +16,18 @@ public sealed class ModBase
     public static BaseUnityPlugin plugin;
     private readonly Harmony harmony;
     public Action OnConfigurationChanged;
+    public AssetBundle bundle;
+
+    public AssetBundle LoadAssetBundle(string filename)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith(filename));
+
+        using Stream stream = assembly.GetManifestResourceStream(resourceName)!;
+        bundle = AssetBundle.LoadFromStream(stream);
+        return bundle;
+    }
 
     private ModBase(string modName, string modAuthor, string modVersion)
     {
@@ -149,7 +162,7 @@ public sealed class ModBase
         {
             sendDebugMessagesToHud = sendDebugMessagesToHudConfig.Value;
             OnConfigurationChanged?.Invoke();
-            Debug("Configuration Received");
+            if (OnConfigurationChanged == null) Debug("Configuration Received");
         }
         catch (Exception e)
         {

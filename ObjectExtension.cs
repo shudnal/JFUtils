@@ -5,7 +5,7 @@ namespace JFUtils;
 /// <summary>
 ///     Helpful Unity Object extensions.
 /// </summary>
-internal static class ObjectExtension
+public static class ObjectExtension
 {
     public static string GetObjectString(this object obj, bool includePrivate = false)
     {
@@ -38,5 +38,11 @@ internal static class ObjectExtension
         }
 
         return output;
+    }
+
+    public static ZNetView GeZNetView(this Object obj)
+    {
+        return (ZNetView)obj.GetType().GetField("m_nview", BindingFlags.NonPublic | BindingFlags.Instance)
+            .GetValue(obj);
     }
 }

@@ -14,3 +14,5 @@ global using static ZoneSystem.ZoneLocation;
 global using static ZoneSystem.ZoneVegetation;
 global using static Heightmap;
 global using static Heightmap.Biome;
+global using static Skills;
+global using static Skills.SkillDef;
