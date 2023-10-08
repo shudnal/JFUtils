@@ -97,6 +97,7 @@
     <ItemGroup>
         <Compile Include="ConfigSync.cs" />
         <Compile Include="ConfigurationManagerAttributes.cs" />
+        <Compile Include="ConsoleException.cs" />
         <Compile Include="EnumerableExtension.cs" />
         <Compile Include="GameObjectExtension.cs" />
         <Compile Include="GlobalUsings.cs" />
@@ -117,6 +118,7 @@
         <Compile Include="Valheim\ItemDropExtension.cs" />
         <Compile Include="Valheim\MinimapExtension.cs" />
         <Compile Include="Valheim\ObjectDBExtension.cs" />
+        <Compile Include="Valheim\PrivateAreaExtension.cs" />
         <Compile Include="Valheim\RecipeExtension.cs" />
         <Compile Include="Valheim\SkillsExtension.cs" />
         <Compile Include="Valheim\StringExtension.cs" />

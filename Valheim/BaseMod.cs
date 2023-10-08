@@ -8,15 +8,14 @@ namespace JFUtils.Valheim;
 
 public sealed class ModBase
 {
-    private static bool sendDebugMessagesToHud;
-    private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
-
     public static string ModName, ModAuthor, ModVersion, ModGUID;
     public static ModBase mod;
-    public static BaseUnityPlugin plugin;
+    private static BaseUnityPlugin plugin;
+    private static bool sendDebugMessagesToHud;
+    private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
     private readonly Harmony harmony;
-    public Action OnConfigurationChanged;
-    public AssetBundle bundle;
+    public static Action OnConfigurationChanged;
+    public static AssetBundle bundle;
 
     public AssetBundle LoadAssetBundle(string filename)
     {
@@ -29,36 +28,28 @@ public sealed class ModBase
         return bundle;
     }
 
-    private ModBase(string modName, string modAuthor, string modVersion)
+    private ModBase(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion)
     {
+        if (mod)
+            throw new Exception($"Trying to create new mod {modName}, but {ModName} already exists");
+
         ModName = modName;
         ModAuthor = modAuthor;
         ModVersion = modVersion;
         ModGUID = $"com.{ModAuthor}.{ModName}";
         harmony = new Harmony(ModGUID);
         ConfigFileName = $"{ModGUID}.cfg";
-    }
+        plugin = _plugin;
+        mod = this;
+        bundle = null;
 
-    public static ModBase CreateMod(BaseUnityPlugin plugin, string modName, string modAuthor, string modVersion)
-    {
-        if (mod)
-            throw new Exception($"Trying to create new mod {modName}, but {ModName} already exists");
-
-        mod = new ModBase(modName, modAuthor, modVersion);
-        ModBase.plugin = plugin;
-        mod.Init();
-        return mod;
-    }
-
-    private void Init()
-    {
         configSync = new ConfigSync(ModName)
             { DisplayName = ModName, CurrentVersion = ModVersion, MinimumRequiredVersion = ModVersion };
         plugin.Config.SaveOnConfigSet = false;
         SetupWatcher();
         plugin.Config.ConfigReloaded += (_, _) => UpdateConfiguration();
 
-        serverConfigLocked = config("General", "ServerConfigLock", true, "");
+        serverConfigLocked = config("General", "ServerConfigLock", false, "");
         configSync.AddLockingConfigEntry(serverConfigLocked);
         sendDebugMessagesToHudConfig = config("Debug", "Send debug messages to hud", true, "");
 
@@ -67,16 +58,24 @@ public sealed class ModBase
         harmony.PatchAll();
     }
 
-    public static implicit operator bool(ModBase modBase) { return modBase != null; }
+    public static ModBase CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion) =>
+        new(_plugin, modName, modAuthor, modVersion);
+
+    private static readonly Type pluginType = typeof(BaseUnityPlugin);
+
+    public static T GetPlugin<T>() where T : BaseUnityPlugin => (T)plugin;
+    public static BaseUnityPlugin GetPlugin() => plugin;
+
+    public static implicit operator bool(ModBase modBase) => modBase != null;
 
     #region Debug
 
-    public static void Debug(object msg)
+    public static void Debug(object msg, bool showInHud = false, bool showInConsole = false)
     {
         plugin.Logger.LogInfo(msg);
         msg = $"[{ModName}] {msg}";
-        if (Console.IsVisible()) Console.instance.AddString(msg.ToString());
-        if (Player.m_localPlayer && Player.m_debugMode && sendDebugMessagesToHud)
+        if (showInConsole && Console.IsVisible()) Console.instance.AddString(msg.ToString());
+        if (showInHud && Player.m_localPlayer && Player.m_debugMode && sendDebugMessagesToHud)
             Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, msg.ToString());
     }
 
@@ -173,4 +172,19 @@ public sealed class ModBase
     #endregion
 
     #endregion
+
+    public void RunCommand(Terminal.ConsoleEvent action, Terminal.ConsoleEventArgs args)
+    {
+        try
+        {
+            action(args);
+        }
+        catch (ConsoleException e)
+        {
+            if (e is ConsoleException) args.Context.AddString("<color=red>Error: " + e.Message + "</color>");
+            else DebugError(e);
+        }
+    }
+
+    public bool IsAdmin => configSync.IsAdmin || (ZNet.instance && ZNet.instance.IsServer());
 }

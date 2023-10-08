@@ -1,6 +1,6 @@
 ﻿using BepInEx.Configuration;
 
-namespace AnimationProgress;
+namespace JFUtils;
 
 /// <summary>
 ///     Class that specifies how a setting should be displayed inside the ConfigurationManager settings window.
