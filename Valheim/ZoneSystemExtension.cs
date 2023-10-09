@@ -1,4 +1,6 @@
-﻿namespace JFUtils.Valheim;
+﻿using System.Threading.Tasks;
+
+namespace JFUtils.Valheim;
 
 public static class ZoneSystemExtension
 {
@@ -59,5 +61,29 @@ public static class ZoneSystemExtension
         creatingValidPlacesForLocation = false;
 
         return tempPoints;
+    }
+
+    public static async Task<List<ZDO>> GetWorldObjectsInAreaAsync(this ZoneSystem zoneSystem,
+        string prefabName, Func<ZDO, bool> customFilter = null)
+    {
+        int prefabHash = prefabName.GetStableHashCode();
+        var result = await Task.Run(() =>
+        {
+            var zdos = ZDOMan.instance.m_objectsByID.Values.Where(x => x.GetPrefab() == prefabHash).ToList();
+            if (customFilter != null) zdos = zdos.Where(x => customFilter.Invoke(x)).ToList();
+            return zdos;
+        });
+
+        return result;
+    }
+
+    public static async Task<List<ZDO>> GetWorldObjectsInAreaAsync(this ZoneSystem zoneSystem, Vector3 pos,
+        float radius, string prefabName, Func<ZDO, bool> customFilter = null)
+    {
+        return await zoneSystem.GetWorldObjectsInAreaAsync(prefabName, zdo =>
+        {
+            if (pos.DistanceXZ(zdo.GetPosition()) > radius) return false;
+            return true;
+        });
     }
 }
