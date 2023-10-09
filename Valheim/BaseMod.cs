@@ -9,13 +9,14 @@ namespace JFUtils.Valheim;
 public sealed class ModBase
 {
     public static string ModName, ModAuthor, ModVersion, ModGUID;
+    public readonly Harmony harmony;
     public static ModBase mod;
+    public static Action OnConfigurationChanged;
+    public static AssetBundle bundle;
+
     private static BaseUnityPlugin plugin;
     private static bool sendDebugMessagesToHud;
     private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
-    private readonly Harmony harmony;
-    public static Action OnConfigurationChanged;
-    public static AssetBundle bundle;
 
     public AssetBundle LoadAssetBundle(string filename)
     {
@@ -28,7 +29,9 @@ public sealed class ModBase
         return bundle;
     }
 
-    private ModBase(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion)
+    private ModBase(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion, bool
+        pathAll =
+        true)
     {
         if (mod)
             throw new Exception($"Trying to create new mod {modName}, but {ModName} already exists");
@@ -55,11 +58,12 @@ public sealed class ModBase
 
         plugin.Config.SaveOnConfigSet = true;
         plugin.Config.Save();
-        harmony.PatchAll();
+        if (pathAll) harmony.PatchAll();
     }
 
-    public static ModBase CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion) =>
-        new(_plugin, modName, modAuthor, modVersion);
+    public static ModBase CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion,
+        bool pathAll = true) =>
+        new(_plugin, modName, modAuthor, modVersion, pathAll);
 
     private static readonly Type pluginType = typeof(BaseUnityPlugin);
 
