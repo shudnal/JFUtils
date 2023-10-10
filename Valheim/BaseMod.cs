@@ -6,11 +6,10 @@ using ServerSync;
 
 namespace JFUtils.Valheim;
 
-public sealed class ModBase
+public static class ModBase
 {
     public static string ModName, ModAuthor, ModVersion, ModGUID;
-    public readonly Harmony harmony;
-    public static ModBase mod;
+    public static Harmony harmony;
     public static Action OnConfigurationChanged;
     public static AssetBundle bundle;
 
@@ -18,10 +17,9 @@ public sealed class ModBase
     private static bool sendDebugMessagesToHud;
     private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
 
-    public AssetBundle LoadAssetBundle(string filename)
+    public static AssetBundle LoadAssetBundle(string filename)
     {
         var assembly = Assembly.GetExecutingAssembly();
-
         string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith(filename));
 
         using Stream stream = assembly.GetManifestResourceStream(resourceName)!;
@@ -29,13 +27,9 @@ public sealed class ModBase
         return bundle;
     }
 
-    private ModBase(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion, bool
-        pathAll =
-        true)
+    public static void CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion,
+        bool pathAll = true)
     {
-        if (mod)
-            throw new Exception($"Trying to create new mod {modName}, but {ModName} already exists");
-
         ModName = modName;
         ModAuthor = modAuthor;
         ModVersion = modVersion;
@@ -43,7 +37,6 @@ public sealed class ModBase
         harmony = new Harmony(ModGUID);
         ConfigFileName = $"{ModGUID}.cfg";
         plugin = _plugin;
-        mod = this;
         bundle = null;
 
         configSync = new ConfigSync(ModName)
@@ -61,16 +54,9 @@ public sealed class ModBase
         if (pathAll) harmony.PatchAll();
     }
 
-    public static ModBase CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion,
-        bool pathAll = true) =>
-        new(_plugin, modName, modAuthor, modVersion, pathAll);
-
-    private static readonly Type pluginType = typeof(BaseUnityPlugin);
-
     public static T GetPlugin<T>() where T : BaseUnityPlugin => (T)plugin;
     public static BaseUnityPlugin GetPlugin() => plugin;
 
-    public static implicit operator bool(ModBase modBase) => modBase != null;
 
     #region Debug
 
@@ -103,12 +89,12 @@ public sealed class ModBase
 
     #region Core
 
-    private readonly string ConfigFileName = "-1";
-    private DateTime LastConfigChange;
-    public ConfigSync configSync;
+    private static string ConfigFileName = "-1";
+    private static DateTime LastConfigChange;
+    public static ConfigSync configSync;
     private static ConfigEntry<bool> serverConfigLocked = null!;
 
-    public ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,
+    public static ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,
         bool synchronizedSetting = true)
     {
         var configEntry = plugin.Config.Bind(group, name, value, description);
@@ -119,7 +105,7 @@ public sealed class ModBase
         return configEntry;
     }
 
-    public ConfigEntry<T> config<T>(string group, string name, T value, string description,
+    public static ConfigEntry<T> config<T>(string group, string name, T value, string description,
         bool synchronizedSetting = true)
     {
         return config(group, name, value, new ConfigDescription(description), synchronizedSetting);
@@ -135,7 +121,7 @@ public sealed class ModBase
 
     #region Updating
 
-    private void SetupWatcher()
+    private static void SetupWatcher()
     {
         FileSystemWatcher fileSystemWatcher = new(Paths.ConfigPath, ConfigFileName);
         fileSystemWatcher.Changed += ConfigChanged;
@@ -144,7 +130,7 @@ public sealed class ModBase
         fileSystemWatcher.EnableRaisingEvents = true;
     }
 
-    private void ConfigChanged(object sender, FileSystemEventArgs e)
+    private static void ConfigChanged(object sender, FileSystemEventArgs e)
     {
         if ((DateTime.Now - LastConfigChange).TotalSeconds <= 2) return;
         LastConfigChange = DateTime.Now;
@@ -159,7 +145,7 @@ public sealed class ModBase
         }
     }
 
-    private void UpdateConfiguration()
+    private static void UpdateConfiguration()
     {
         try
         {
@@ -177,7 +163,7 @@ public sealed class ModBase
 
     #endregion
 
-    public void RunCommand(Terminal.ConsoleEvent action, Terminal.ConsoleEventArgs args)
+    public static void RunCommand(Terminal.ConsoleEvent action, Terminal.ConsoleEventArgs args)
     {
         try
         {
@@ -190,5 +176,5 @@ public sealed class ModBase
         }
     }
 
-    public bool IsAdmin => configSync.IsAdmin || (ZNet.instance && ZNet.instance.IsServer());
+    public static bool IsAdmin => configSync.IsAdmin || (ZNet.instance && ZNet.instance.IsServer());
 }
