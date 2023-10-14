@@ -28,8 +28,6 @@ public static class TimeUtils
         var num2 = (int)((smoothDayFraction * 24f - num) * 60f);
         var second = (int)(((smoothDayFraction * 24f - num) * 60f - num2) * 60f);
         var theTime = new DateTime(now.Year, now.Month, now.Day, num, num2, second);
-        //int currentDay = EnvMan.instance.GetCurrentDay();
-        //return TimeUtils.GetCurrentTimeString(theTime);
         return theTime;
     }
 }

@@ -33,12 +33,16 @@ a reference to it.
 ## Documentation
 - Classes
 - - [ModBase](#ModBase)
-- - - [Methods](#modbase-methods)
-- - - [Properties](#modbase-properties)
-- - - [Events](#modbase-events)
-- - - [Fields](#modbase-fields)
+- - - [Methods](#ModBase-methods)
+- - - [Properties](#ModBase-properties)
+- - - [Events](#ModBase-events)
+- - - [Fields](#ModBase-fields)
 - - [TimeUtils](#TimeUtils)
+- - - [Methods](#TimeUtils-methods)
 - - [SimpleVector2](#SimpleVector2)
+- - - [Methods](#SimpleVector2-methods)
+- - - [Fields](#SimpleVector2-fields)
+- - - [ExtensionMethods](#SimpleVector2-extensions)
 - - [SimpleVector3](#SimpleVector3)
 - - [ObjectsInstances](#ObjectsInstances)
 - - [ConsoleCommandException](#ConsoleCommandException)
@@ -68,10 +72,9 @@ a reference to it.
 
 ## ModBase <a name="ModBase"></a>
 All methods, fields and properties are static.
-### Methods <a name="modbase-methods"></a>
-#### CreateMod()
-```void CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion, bool pathAll = true)```
-<br>
+### Methods <a name="ModBase-methods"></a>
+#### CreateMod
+```void CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion, bool pathAll = true)```<br>
 Allows you to create your own mod automatically.
 Call ```ModBase.CreateMod()``` to create a mod. It will automatically:
 - create ConfigSync
@@ -130,7 +133,7 @@ Loads an asset bundle, returns the it and saves it in ```ModBase.bundle``` field
 ```string CreateModGUID(string ModName, string ModAuthor) => $"com.{ModAuthor}.{ModName}";```<br>
 Constructs a mod GUID. in format ```com.ModAuthor.ModName```.
 
-### Properties <a name="modbase-properties"></a>
+### Properties <a name="ModBase-properties"></a>
 #### ModName
 ```string ModName { get; private set; }```<br>
 The name of the mod.
@@ -150,13 +153,75 @@ The harmony instance for this mod.
 ```bool IsAdmin```<br>
 Whether the player is an admin on this server.
 
-### Fields <a name="modbase-fields"></a>
+### Fields <a name="ModBase-fields"></a>
 #### bundle
 ```AssetBundle bundle```<br>
 The asset bundle of the mod set by ```LoadAssetBundle```.
 
-### Events <a name="modbase-events"></a>
+### Events <a name="ModBase-events"></a>
 #### OnConfigurationChanged
 ```Action OnConfigurationChanged```<br>
 Called when configuration file is changed.
 
+
+
+## TimeUtils <a name="TimeUtils"></a>
+Made by [Azumatt](https://github.com/AzumattDev). Dear Azumatt, if you want me to delete this file, please let me 
+know and I will delete it.<br>
+All methods are static.
+### Methods <a name="TimeUtils-methods"></a>
+#### GetCurrentTimeValue
+```(int, int) GetCurrentTimeValue()```<br>
+Returns the current time in format ```HH.mm```.
+
+
+
+## SimpleVector2 <a name="SimpleVector2"></a>
+Simple struct for 2D vector. 
+### Methods <a name="SimpleVector2-methods"></a>
+#### ToSimpleVector2
+```UnityEngine.Vector2 ToVector2()```<br>
+Converts to UnityEngine.Vector2.
+#### ToString
+```string ToString()```<br>
+Converts to string in format ```X: {X}, Y: {Y}```
+
+### Fields <a name="SimpleVector2-fields"></a>
+#### x
+```float x```<br>
+X value.
+#### y
+```float y```<br>
+Y value.
+
+### ExtensionMethods <a name="SimpleVector2-extensions"></a>
+#### ToSimpleVector2
+```SimpleVector2 ToSimpleVector2(this UnityEngine.Vector2 vector2)```<br>
+Converts UnityEngine.Vector2 to SimpleVector2.
+
+
+## SimpleVector3 <a name="SimpleVector3"></a>
+Simple struct for 3D vector. 
+### Methods <a name="SimpleVector3-methods"></a>
+#### ToSimpleVector3
+```UnityEngine.Vector3 ToVector3()```<br>
+Converts to UnityEngine.Vector3.
+#### ToString
+```string ToString()```<br>
+Converts to string in format ```X: {X}, Y: {Y}, Z: {Z}```
+
+### Fields <a name="SimpleVector3-fields"></a>
+#### x
+```float x```<br>
+X value.
+#### y
+```float y```<br>
+Y value.
+#### z
+```float z```<br>
+Z value.
+
+### ExtensionMethods <a name="SimpleVector3-extensions"></a>
+#### ToSimpleVector3
+```SimpleVector3 ToSimpleVector3(this UnityEngine.Vector3 vector3)```<br>
+Converts UnityEngine.Vector3 to SimpleVector3.
