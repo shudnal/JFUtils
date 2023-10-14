@@ -63,14 +63,14 @@ public static class ObjectsInstances
     static ObjectsInstances()
     {
         new Harmony("Extensions.Valheim.WithPatch.RegisterObjectsInstances").PatchAll(typeof(RegisterObjectsInstances));
-        Debug.Log("RegisterObjectsInstances patched");
+        Debug("RegisterObjectsInstances patched");
     }
 
-    public static List<Pickable> allPickables => RegisterObjectsInstances.AllPickables;
-    public static List<Plant> allPlants => RegisterObjectsInstances.AllPlants;
-    public static List<Door> allDoors => RegisterObjectsInstances.AllDoors;
-    public static List<Sign> allSigns => RegisterObjectsInstances.AllSigns;
-    public static List<Container> allContainers => RegisterObjectsInstances.AllContainers;
-    public static List<CraftingStation> allCraftingStations => CraftingStation.m_allStations;
-    public static List<Bed> allBeds => RegisterObjectsInstances.AllBeds;
+    public static List<Pickable> AllPickables => RegisterObjectsInstances.AllPickables;
+    public static List<Plant> AllPlants => RegisterObjectsInstances.AllPlants;
+    public static List<Door> AllDoors => RegisterObjectsInstances.AllDoors;
+    public static List<Sign> AllSigns => RegisterObjectsInstances.AllSigns;
+    public static List<Container> AllContainers => RegisterObjectsInstances.AllContainers;
+    public static List<CraftingStation> AllCraftingStations => CraftingStation.m_allStations;
+    public static List<Bed> AllBeds => RegisterObjectsInstances.AllBeds;
 }

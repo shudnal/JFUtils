@@ -44,16 +44,19 @@ a reference to it.
 - - - [Fields](#SimpleVector2-fields)
 - - - [ExtensionMethods](#SimpleVector2-extensions)
 - - [SimpleVector3](#SimpleVector3)
+- - - [Methods](#SimpleVector3-methods)
+- - - [Fields](#SimpleVector3-fields)
+- - - [ExtensionMethods](#SimpleVector3-extensions)
 - - [ObjectsInstances](#ObjectsInstances)
+- - - [Properties](#ObjectsInstances-properties)
 - - [ConsoleCommandException](#ConsoleCommandException)
-- - [ConfigurationManagerAttributes](#ConfigurationManagerAttributes)
+- - ConfigurationManagerAttributes
 - Enums
 - - [Wheather](#Wheather)
 - Extensions
 - - [ZoneSystemExtension](#ZoneSystemExtension)
 - - [BiomeExtension](#BiomeExtension)
 - - [ObjectDBExtension](#ObjectDBExtension)
-- - [InventoryExtension](#InventoryExtension)
 - - [ItemDropExtension](#ItemDropExtension)
 - - [MinimapExtension](#MinimapExtension)
 - - [PrivateAreaExtension](#PrivateAreaExtension)
@@ -132,7 +135,6 @@ Loads an asset bundle, returns the it and saves it in ```ModBase.bundle``` field
 #### CreateModGUID
 ```string CreateModGUID(string ModName, string ModAuthor) => $"com.{ModAuthor}.{ModName}";```<br>
 Constructs a mod GUID. in format ```com.ModAuthor.ModName```.
-
 ### Properties <a name="ModBase-properties"></a>
 #### ModName
 ```string ModName { get; private set; }```<br>
@@ -152,30 +154,23 @@ The harmony instance for this mod.
 #### IsAdmin
 ```bool IsAdmin```<br>
 Whether the player is an admin on this server.
-
 ### Fields <a name="ModBase-fields"></a>
 #### bundle
 ```AssetBundle bundle```<br>
 The asset bundle of the mod set by ```LoadAssetBundle```.
-
 ### Events <a name="ModBase-events"></a>
 #### OnConfigurationChanged
 ```Action OnConfigurationChanged```<br>
 Called when configuration file is changed.
-
-
-
+<br><br><br>
 ## TimeUtils <a name="TimeUtils"></a>
-Made by [Azumatt](https://github.com/AzumattDev). Dear Azumatt, if you want me to delete this file, please let me 
-know and I will delete it.<br>
+Made by [Azumatt](https://github.com/AzumattDev).<br>
 All methods are static.
 ### Methods <a name="TimeUtils-methods"></a>
 #### GetCurrentTimeValue
 ```(int, int) GetCurrentTimeValue()```<br>
 Returns the current time in format ```HH.mm```.
-
-
-
+<br><br><br>
 ## SimpleVector2 <a name="SimpleVector2"></a>
 Simple struct for 2D vector. 
 ### Methods <a name="SimpleVector2-methods"></a>
@@ -185,7 +180,6 @@ Converts to UnityEngine.Vector2.
 #### ToString
 ```string ToString()```<br>
 Converts to string in format ```X: {X}, Y: {Y}```
-
 ### Fields <a name="SimpleVector2-fields"></a>
 #### x
 ```float x```<br>
@@ -193,13 +187,11 @@ X value.
 #### y
 ```float y```<br>
 Y value.
-
 ### ExtensionMethods <a name="SimpleVector2-extensions"></a>
 #### ToSimpleVector2
 ```SimpleVector2 ToSimpleVector2(this UnityEngine.Vector2 vector2)```<br>
 Converts UnityEngine.Vector2 to SimpleVector2.
-
-
+<br><br><br>
 ## SimpleVector3 <a name="SimpleVector3"></a>
 Simple struct for 3D vector. 
 ### Methods <a name="SimpleVector3-methods"></a>
@@ -209,7 +201,6 @@ Converts to UnityEngine.Vector3.
 #### ToString
 ```string ToString()```<br>
 Converts to string in format ```X: {X}, Y: {Y}, Z: {Z}```
-
 ### Fields <a name="SimpleVector3-fields"></a>
 #### x
 ```float x```<br>
@@ -220,8 +211,110 @@ Y value.
 #### z
 ```float z```<br>
 Z value.
-
 ### ExtensionMethods <a name="SimpleVector3-extensions"></a>
 #### ToSimpleVector3
 ```SimpleVector3 ToSimpleVector3(this UnityEngine.Vector3 vector3)```<br>
 Converts UnityEngine.Vector3 to SimpleVector3.
+<br><br><br>
+## ObjectsInstances <a name="ObjectsInstances"></a>
+Registers all activly loaded pickables, plants, doors, signs, containers, crafting stations and beds.
+### Properties <a name="ObjectsInstances-properties"></a>
+#### AllPickables
+```List<Pickable> AllPickables```<br>
+List of all pickables.
+#### AllPlants
+```List<Plant> AllPlants```<br>
+List of all plants.
+#### AllDoors
+```List<Door> AllDoors```<br>
+List of all doors.
+#### AllSigns
+```List<Sign> AllSigns```<br>
+List of all signs.
+#### AllContainers
+```List<Container> AllContainers```<br>
+List of all containers.
+#### AllCraftingStations
+```List<CraftingStation> AllCraftingStations```<br>
+List of all crafting stations.
+#### AllBeds
+```List<Bed> AllBeds```<br>
+List of all beds.
+<br><br><br>
+## ConsoleCommandException <a name="ConsoleCommandException"></a>
+If running console command using ModBase.RunCommand, you should throw this exception if some commands conditions are 
+not met. It will be filtered from other exceptions and printed only in in-game console.
+<br><br><br>
+## Wheather <a name="Wheather"></a>
+Enum of all posible vanila weather.
+<br><br><br>
+## ZoneSystemExtension <a name="ZoneSystemExtension"></a>
+Extension for ZoneSystem.
+#### SetGlobalKey
+```void SetGlobalKey(string key, object value)```<br>
+Sets the global key by string key.
+#### GetGlobalKeyValue
+``` string GetGlobalKeyValue(string key)```<br>
+Gets the global key value by string key.
+#### GetOrAddGlobalKey
+```string GetOrAddGlobalKey(string key, string defaultValue)```<br>
+Gets or adds the global key by string key.
+#### GetGeneratedLocationsByName
+```(Vector2i, LocationInstance)[] GetGeneratedLocationsByName(string key)```<br>
+Gets all generated locations by name. Returns an array of turple with Vector2i and LocationInstance, the first one is the 
+zoneId, the second one is the location data.
+#### CreateValidPlacesForLocation
+```List<Vector3> CreateValidPlacesForLocation(string key, int count)```<br>
+Returns valid places for location generated by vanilla algorithm.
+#### GetWorldObjectsAsync
+```Task<List<ZDO>> GetWorldObjectsAsync(params Func<ZDO, bool>[] customFilters)```<br>
+```Task<List<ZDO>> GetWorldObjectsAsync(string prefabName, params Func<ZDO, bool>[] customFilters)```<br>
+Returns ZDOs of all objects in world matching given filters. Should be awated.
+<br><br><br>
+## BiomeExtension <a name="BiomeExtension"></a>
+Extension for BiomeSystem.
+#### GetLocalizationKey
+```string GetLocalizationKey()```<br>
+Returns the localization key for given biome.
+<br><br><br>
+## ObjectDBExtension <a name="ObjectDBExtension"></a>
+Extension for ObjectDB.
+#### GetItem
+```ItemDrop GetItem(string name)```<br>
+```ItemDrop GetItem(int hash)```<br>
+Returns item by name or hash.
+<br><br><br>
+## ItemDropExtension <a name="ItemDropExtension"></a>
+#### LocalizeName
+```string ItemDrop.LocalizeName()```<br>
+```string ItemDrop.ItemData.LocalizeName()```<br>
+```string ItemDrop.ItemData.SharedData.LocalizeName()```<br>
+Returns localized name of m_itemData.m_shared.m_name.
+<br><br><br>
+## MinimapExtension <a name="MinimapExtension"></a>
+#### ForceUpdateLocationPins
+```void ForceUpdateLocationPins()```<br>
+Updates all location pins immediately.
+<br><br><br>
+## PrivateAreaExtension <a name="PrivateAreaExtension"></a>
+#### InsideActiveFactionArea
+```bool InsideActiveFactionArea(Vector3 point, Character.Faction faction)```<br>
+Returns true if point is inside PrivateArea that is active and belongs to given faction.
+<br><br><br>
+## RecipeExtension <a name="RecipeExtension"></a>
+#### ToList
+```List<(ItemDrop.ItemData.SharedData, int)> ToList()```<br>
+Converts Recipe to list of (ItemDrop.ItemData.SharedData, int). First is item shared data, second is amount.
+
+
+
+<br><br><br>
+## SkillsExtension <a name="SkillsExtension"></a>
+#### GetCustomSkill
+```Skill GetCustomSkill(string skillName)```<br>
+Returns vanila or mod skill by given name.
+<br><br><br>
+## StringExtension <a name="StringExtension"></a>
+#### Localize
+```string Localize(string key)```<br>
+Returns localized string.

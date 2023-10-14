@@ -5,13 +5,11 @@ namespace JFUtils.Valheim;
 public static class ZoneSystemExtension
 {
     internal static List<Vector3> tempPoints = new();
-    public static bool creatingValidPlacesForLocation;
-    public static string creatingPlacesFor = "";
+    internal static bool creatingValidPlacesForLocation;
+    internal static string creatingPlacesFor = "";
 
-    public static void SetGlobalKey(this ZoneSystem zoneSystem, string key, object value)
-    {
+    public static void SetGlobalKey(this ZoneSystem zoneSystem, string key, object value) =>
         zoneSystem.SetGlobalKey($"{key} {value}");
-    }
 
     public static string GetGlobalKeyValue(this ZoneSystem zoneSystem, string key)
     {
@@ -28,16 +26,13 @@ public static class ZoneSystemExtension
     }
 
     public static (Vector2i, LocationInstance)[] GetGeneratedLocationsByName(this ZoneSystem zoneSystem,
-        string key)
-    {
-        return instance.m_locationInstances
+        string key) =>
+        instance.m_locationInstances
             .Where(x => x.Value.m_location.m_prefabName == key)
             .Select(x => (x.Key, x.Value))
             .ToArray();
-    }
 
-    public static List<Vector3> CreateValidPlacesForLocation(this ZoneSystem zoneSystem,
-        string key, int count)
+    public static List<Vector3> CreateValidPlacesForLocation(this ZoneSystem zoneSystem, string key, int count)
     {
         tempPoints.Clear();
         var location = instance.GetLocation(key);
@@ -63,19 +58,15 @@ public static class ZoneSystemExtension
         return tempPoints;
     }
 
-    public static async Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem,
-        params Func<ZDO, bool>[] customFilters)
-    {
-        var result = await Task.Run(() =>
+    public static Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem,
+        params Func<ZDO, bool>[] customFilters) =>
+        Task.Run(() =>
         {
             var zdos = new List<ZDO>(ZDOMan.instance.m_objectsByID.Values);
             if (customFilters != null && customFilters.Length != 0)
                 zdos = zdos.Where(x => customFilters.All(filter => filter?.Invoke(x) ?? false)).ToList();
             return zdos;
         });
-
-        return result;
-    }
 
     public static Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem, string prefabName,
         params Func<ZDO, bool>[] customFilters)
@@ -84,8 +75,4 @@ public static class ZoneSystemExtension
         Func<ZDO, bool> prefabFilter = zdo => zdo.GetPrefab() == prefabHash;
         return zoneSystem.GetWorldObjectsAsync(customFilters.AddToArray(prefabFilter));
     }
-
-    public static Task<List<ZDO>> GetWorldObjectsInAreaAsync(this ZoneSystem zoneSystem, Vector3 pos,
-        float radius, string prefabName, params Func<ZDO, bool>[] customFilter) =>
-        zoneSystem.GetWorldObjectsAsync(prefabName, zdo => pos.DistanceXZ(zdo.GetPosition()) <= radius);
 }
