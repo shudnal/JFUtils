@@ -4,7 +4,7 @@
 public class ZoneSystemExtension
 {
     [HarmonyPatch(typeof(ZoneSystem), nameof(ZoneSystem.RegisterLocation))]
-    [HarmonyPrefix]
+    [HarmonyPrefix, HarmonyWrapSafe]
     private static bool Patch(ZoneLocation location, Vector3 pos)
     {
         if (!Valheim.ZoneSystemExtension.creatingValidPlacesForLocation) return true;

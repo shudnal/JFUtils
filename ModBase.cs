@@ -8,8 +8,13 @@ namespace JFUtils.Valheim;
 
 public static class ModBase
 {
-    public static string ModName, ModAuthor, ModVersion, ModGUID;
-    public static Harmony harmony;
+    public static string CreateModGUID(string ModName, string ModAuthor) => $"com.{ModAuthor}.{ModName}";
+    public static string ModName { get; private set; }
+    public static string ModAuthor { get; private set; }
+    public static string ModVersion { get; private set; }
+    public static string ModGUID { get; private set; }
+
+    public static Harmony harmony { get; private set; }
     public static Action OnConfigurationChanged;
     public static AssetBundle bundle;
 
@@ -33,9 +38,9 @@ public static class ModBase
         ModName = modName;
         ModAuthor = modAuthor;
         ModVersion = modVersion;
-        ModGUID = $"com.{ModAuthor}.{ModName}";
+        ModGUID = CreateModGUID(ModName, ModAuthor);
         harmony = new Harmony(ModGUID);
-        ConfigFileName = $"{ModGUID}.cfg";
+        ConfigFileName = ModGUID + ".cfg";
         plugin = _plugin;
         bundle = null;
 
@@ -69,16 +74,17 @@ public static class ModBase
             Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, msg.ToString());
     }
 
-    public static void DebugError(object msg, bool showWriteToDev = true)
+    public static void DebugError(object msg, bool showWriteToDev = true, bool showInConsole = false)
     {
-        if (Console.IsVisible()) Console.instance.AddString($"<color=red>[{ModName}] {msg}</color>");
-        if (showWriteToDev) msg += "Write to the developer and moderator if this happens often.";
+        if (showInConsole && Console.IsVisible()) Console.instance.AddString($"<color=red>[{ModName}] {msg}</color>");
+        if (showWriteToDev) msg += " Write to the developer and moderator if this happens often.";
         plugin.Logger.LogError(msg);
     }
 
-    public static void DebugWarning(object msg, bool showWriteToDev = true)
+    public static void DebugWarning(object msg, bool showWriteToDev = true, bool showInConsole = false)
     {
-        if (Console.IsVisible()) Console.instance.AddString($"<color=yellow>[{ModName}] {msg}</color>");
+        if (showInConsole && Console.IsVisible())
+            Console.instance.AddString($"<color=yellow>[{ModName}] {msg}</color>");
         if (showWriteToDev) msg += "Write to the developer and moderator if this happens often.";
         plugin.Logger.LogWarning(msg);
     }
@@ -169,10 +175,13 @@ public static class ModBase
         {
             action(args);
         }
-        catch (ConsoleException e)
+        catch (ConsoleCommandException e)
         {
-            if (e is ConsoleException) args.Context.AddString("<color=red>Error: " + e.Message + "</color>");
-            else DebugError(e);
+            args.Context.AddString("<color=red>Error: " + e.Message + "</color>");
+        }
+        catch (Exception e)
+        {
+            DebugError(e, showInConsole: false);
         }
     }
 

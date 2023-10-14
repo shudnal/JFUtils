@@ -6,6 +6,6 @@ namespace JFUtils.Valheim.WithPatch;
 public class UpdateConfigOnGameStart
 {
     [HarmonyPatch(typeof(Game), nameof(Game.Start))]
-    [HarmonyPostfix]
+    [HarmonyPostfix, HarmonyWrapSafe]
     private static void UpdateConfig() => GetPlugin<BaseUnityPlugin>()?.Config.Reload();
 }

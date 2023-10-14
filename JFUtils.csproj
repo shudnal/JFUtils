@@ -95,7 +95,8 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="ConsoleException.cs" />
+        <Compile Include="ModBase.cs" />
+        <Compile Include="ConsoleCommandException.cs" />
         <Compile Include="EnumerableExtension.cs" />
         <Compile Include="GameObjectExtension.cs" />
         <Compile Include="GlobalUsings.cs" />
@@ -109,8 +110,6 @@
         <Compile Include="StringExtension.cs" />
         <Compile Include="TimeUtils.cs" />
         <Compile Include="TransformExtension.cs" />
-        <Compile Include="Utilities.cs" />
-        <Compile Include="Valheim\BaseMod.cs" />
         <Compile Include="Valheim\BiomeExtension.cs" />
         <Compile Include="Valheim\ConfigSync.cs" />
         <Compile Include="Valheim\ConfigurationManagerAttributes.cs" />
@@ -131,6 +130,8 @@
         <Compile Include="Weather.cs" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="Documentstion.md" />
+        <Content Include="DocumentstionModBase.md" />
         <Content Include="README.md" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

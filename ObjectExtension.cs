@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using JetBrains.Annotations;
 
 namespace JFUtils;
 
@@ -40,9 +41,10 @@ public static class ObjectExtension
         return output;
     }
 
-    public static ZNetView GeZNetView(this Object obj)
+    public static ZNetView? GeZNetView(this MonoBehaviour monoB)
     {
-        return (ZNetView)obj.GetType().GetField("m_nview", BindingFlags.NonPublic | BindingFlags.Instance)
-            .GetValue(obj);
+        var value = monoB?.GetType()?.GetField("m_nview", BindingFlags.NonPublic | BindingFlags.Instance)
+            ?.GetValue(monoB);
+        return value == null ? null : (ZNetView)value;
     }
 }

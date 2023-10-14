@@ -63,27 +63,29 @@ public static class ZoneSystemExtension
         return tempPoints;
     }
 
-    public static async Task<List<ZDO>> GetWorldObjectsInAreaAsync(this ZoneSystem zoneSystem,
-        string prefabName, Func<ZDO, bool> customFilter = null)
+    public static async Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem,
+        params Func<ZDO, bool>[] customFilters)
     {
-        int prefabHash = prefabName.GetStableHashCode();
         var result = await Task.Run(() =>
         {
-            var zdos = ZDOMan.instance.m_objectsByID.Values.Where(x => x.GetPrefab() == prefabHash).ToList();
-            if (customFilter != null) zdos = zdos.Where(x => customFilter.Invoke(x)).ToList();
+            var zdos = new List<ZDO>(ZDOMan.instance.m_objectsByID.Values);
+            if (customFilters != null && customFilters.Length != 0)
+                zdos = zdos.Where(x => customFilters.All(filter => filter?.Invoke(x) ?? false)).ToList();
             return zdos;
         });
 
         return result;
     }
 
-    public static async Task<List<ZDO>> GetWorldObjectsInAreaAsync(this ZoneSystem zoneSystem, Vector3 pos,
-        float radius, string prefabName, Func<ZDO, bool> customFilter = null)
+    public static Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem, string prefabName,
+        params Func<ZDO, bool>[] customFilters)
     {
-        return await zoneSystem.GetWorldObjectsInAreaAsync(prefabName, zdo =>
-        {
-            if (pos.DistanceXZ(zdo.GetPosition()) > radius) return false;
-            return true;
-        });
+        int prefabHash = prefabName.GetStableHashCode();
+        Func<ZDO, bool> prefabFilter = zdo => zdo.GetPrefab() == prefabHash;
+        return zoneSystem.GetWorldObjectsAsync(customFilters.AddToArray(prefabFilter));
     }
+
+    public static Task<List<ZDO>> GetWorldObjectsInAreaAsync(this ZoneSystem zoneSystem, Vector3 pos,
+        float radius, string prefabName, params Func<ZDO, bool>[] customFilter) =>
+        zoneSystem.GetWorldObjectsAsync(prefabName, zdo => pos.DistanceXZ(zdo.GetPosition()) <= radius);
 }
