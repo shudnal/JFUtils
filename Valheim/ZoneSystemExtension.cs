@@ -68,11 +68,11 @@ public static class ZoneSystemExtension
             return zdos;
         });
 
-    public static Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem, string prefabName,
+    public static async Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem, string prefabName,
         params Func<ZDO, bool>[] customFilters)
     {
         int prefabHash = prefabName.GetStableHashCode();
         Func<ZDO, bool> prefabFilter = zdo => zdo.GetPrefab() == prefabHash;
-        return zoneSystem.GetWorldObjectsAsync(customFilters.AddToArray(prefabFilter));
+        return await zoneSystem.GetWorldObjectsAsync(customFilters.AddToArray(prefabFilter));
     }
 }

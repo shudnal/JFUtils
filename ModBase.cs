@@ -32,16 +32,22 @@ public static class ModBase
         return bundle;
     }
 
-    public static void CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor, string modVersion,
-        bool pathAll = true)
+    public static void CreateMod(BaseUnityPlugin _plugin, string modName, string modAuthor,
+        string modVersion, string modGUID, bool pathAll = true)
     {
+        plugin = _plugin;
         ModName = modName;
         ModAuthor = modAuthor;
         ModVersion = modVersion;
         ModGUID = CreateModGUID(ModName, ModAuthor);
+        if (modGUID != ModGUID)
+        {
+            DebugError("Mod GUID doesn't match required format: com.ModAuthor.ModName");
+            ModGUID = modGUID;
+        }
+
         harmony = new Harmony(ModGUID);
         ConfigFileName = ModGUID + ".cfg";
-        plugin = _plugin;
         bundle = null;
 
         configSync = new ConfigSync(ModName)
@@ -50,7 +56,8 @@ public static class ModBase
         SetupWatcher();
         plugin.Config.ConfigReloaded += (_, _) => UpdateConfiguration();
 
-        serverConfigLocked = config("General", "ServerConfigLock", false, "");
+        serverConfigLocked = config("General", "ServerConfigLock", true,
+            "Locks client config file so it can't be modified");
         configSync.AddLockingConfigEntry(serverConfigLocked);
         sendDebugMessagesToHudConfig = config("Debug", "Send debug messages to hud", true, "");
 

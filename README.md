@@ -114,9 +114,8 @@ Example:<br>
 ```
 #### GetPlugin
 ```T GetPlugin<T>() where T : BaseUnityPlugin```<br>
-Returns the plugin instance of type of BaseUnityPlugin.
-#### T GetPlugin<T>()
-Returns the plugin instance of type of T. T should your BaseUnityPlugin type.<br>
+```BaseUnityPlugin GetPlugin()```<br>
+Returns the plugin instance of type of BaseUnityPlugin or of type of T. T should your BaseUnityPlugin type.<br>
 ```csharp
 GetPlugin<MyMod>().SomeMethodImplodedInMyMod();
 ```
