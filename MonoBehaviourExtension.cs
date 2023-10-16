@@ -7,4 +7,10 @@ public static class MonoBehaviourExtension
         behaviour.gameObject.SetActive(flag);
         return behaviour;
     }
+
+    public static T ToggleActiveGO<T>(this T behaviour) where T : Component
+    {
+        behaviour.gameObject.SetActive(!behaviour.gameObject.activeSelf);
+        return behaviour;
+    }
 }

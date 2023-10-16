@@ -103,7 +103,7 @@
         <Compile Include="MonoBehaviourExtension.cs" />
         <Compile Include="ObjectExtension.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="RectTransformExtension.cs" />
+        <Compile Include="RectExtension.cs" />
         <Compile Include="RendererExtension.cs" />
         <Compile Include="SimpleVector2.cs" />
         <Compile Include="SimpleVector3.cs" />

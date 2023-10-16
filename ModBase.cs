@@ -27,8 +27,8 @@ public static class ModBase
         var assembly = Assembly.GetExecutingAssembly();
         string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith(filename));
 
-        using Stream stream = assembly.GetManifestResourceStream(resourceName)!;
-        bundle = AssetBundle.LoadFromStream(stream);
+        using (Stream stream = assembly.GetManifestResourceStream(resourceName)!)
+            bundle = AssetBundle.LoadFromStream(stream);
         return bundle;
     }
 

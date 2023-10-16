@@ -14,10 +14,10 @@ public static class EnumerableExtension
     }
 
     public static Dictionary<TKey, TValue>
-        Dictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> list) =>
+        MakeDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> list) =>
         list.Select(x => x).ToDictionary(x => x.Key, y => y.Value);
 
-    public static T Random<T>(this List<T> list)
+    public static T Random<T>(this IList<T> list)
     {
         if (list == null || list.Count == 0) return default;
         return list[UnityEngine.Random.Range(0, list.Count)];
@@ -40,16 +40,15 @@ public static class EnumerableExtension
     public static List<Vector2> RoundCords(this List<Vector2> list)
     {
         var result = new List<Vector2>();
-        for (var i = 0; i < list.Count; i++) result.Add(new Vector2((int)list[i].x, (int)list[i].y));
+        for (var i = 0; i < list.Count; i++) result.Add(list[i].RoundCords());
 
         return result;
     }
 
-    public static string GetString<T>(this IEnumerable<T> list, string separator = ", ")
-    {
-        return string.Join(separator, list);
-    }
+    public static string GetString<T>(this IEnumerable<T> list, string separator = ", ") =>
+        string.Join(separator, list);
 
+    [Obsolete]
     public static void TryAdd<T>(this List<T> sequence, T item)
     {
         if (!sequence.Contains(item)) sequence.Add(item);
@@ -80,6 +79,26 @@ public static class EnumerableExtension
         foreach (var pos_ in list)
         {
             var pos = pos_.transform.position;
+            var dist = Utils.DistanceXZ(nearestTo, pos);
+            if (dist < oldDistance)
+            {
+                current = pos_;
+                oldDistance = dist;
+            }
+        }
+
+        return current;
+    }
+
+    public static Vector3 Nearest(this IEnumerable<Vector3> list, Vector3 nearestTo)
+    {
+        var current = default(Vector3);
+
+        float oldDistance = int.MaxValue;
+        if (list == null || list.Count() == 0) return current;
+        foreach (var pos_ in list)
+        {
+            var pos = pos_;
             var dist = Utils.DistanceXZ(nearestTo, pos);
             if (dist < oldDistance)
             {
