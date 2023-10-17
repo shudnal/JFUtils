@@ -59,20 +59,22 @@ public static class ZoneSystemExtension
     }
 
     public static Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem,
-        params Func<ZDO, bool>[] customFilters) =>
-        Task.Run(() =>
+        params Func<ZDO, bool>[] customFilters)
+    {
+        List<ZDO> zdos = new List<ZDO>(ZDOMan.instance.m_objectsByID.Values);
+        return Task.Run(() =>
         {
-            var zdos = new List<ZDO>(ZDOMan.instance.m_objectsByID.Values);
             if (customFilters != null && customFilters.Length != 0)
-                zdos = zdos.Where(x => customFilters.All(filter => filter?.Invoke(x) ?? false)).ToList();
+                zdos = zdos.Where(x => customFilters.All(filter => filter?.Invoke(x) ?? true)).ToList();
             return zdos;
         });
+    }
 
     public static async Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem, string prefabName,
         params Func<ZDO, bool>[] customFilters)
     {
         int prefabHash = prefabName.GetStableHashCode();
         Func<ZDO, bool> prefabFilter = zdo => zdo.GetPrefab() == prefabHash;
-        return await zoneSystem.GetWorldObjectsAsync(customFilters.AddToArray(prefabFilter));
+        return await zoneSystem.GetWorldObjectsAsync(customFilters.Concat(new[] { prefabFilter }).ToArray());
     }
 }
