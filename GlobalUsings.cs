@@ -9,7 +9,7 @@ global using Object = UnityEngine.Object;
 global using Random = UnityEngine.Random;
 global using static UnityEngine.ScriptableObject;
 global using static ZoneSystem;
-global using static JFUtils.Valheim.ModBase;
+global using static JFUtils.ModBase;
 global using static ZoneSystem.ZoneLocation;
 global using static ZoneSystem.ZoneVegetation;
 global using static Heightmap;

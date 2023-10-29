@@ -56,9 +56,6 @@
         <Reference Include="LocationManager">
             <HintPath>..\Utils\LocationManager.dll</HintPath>
         </Reference>
-        <Reference Include="ServerSync">
-            <HintPath>..\Utils\ServerSync.dll</HintPath>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
@@ -95,39 +92,39 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="BiomeExtension.cs" />
+        <Compile Include="ConfigSync.cs" />
+        <Compile Include="ConfigurationManagerAttributes.cs" />
+        <Compile Include="InventoryExtension.cs" />
+        <Compile Include="ItemDropExtension.cs" />
+        <Compile Include="MinimapExtension.cs" />
         <Compile Include="ModBase.cs" />
         <Compile Include="ConsoleCommandException.cs" />
         <Compile Include="EnumerableExtension.cs" />
         <Compile Include="GameObjectExtension.cs" />
         <Compile Include="GlobalUsings.cs" />
         <Compile Include="MonoBehaviourExtension.cs" />
+        <Compile Include="ObjectDBExtension.cs" />
         <Compile Include="ObjectExtension.cs" />
+        <Compile Include="PrivateAreaExtension.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="RecipeExtension.cs" />
         <Compile Include="RectExtension.cs" />
         <Compile Include="RendererExtension.cs" />
         <Compile Include="SimpleVector2.cs" />
         <Compile Include="SimpleVector3.cs" />
+        <Compile Include="SkillsExtension.cs" />
         <Compile Include="StringExtension.cs" />
         <Compile Include="TimeUtils.cs" />
         <Compile Include="TransformExtension.cs" />
-        <Compile Include="Valheim\BiomeExtension.cs" />
-        <Compile Include="Valheim\ConfigSync.cs" />
-        <Compile Include="Valheim\ConfigurationManagerAttributes.cs" />
-        <Compile Include="Valheim\InventoryExtension.cs" />
-        <Compile Include="Valheim\ItemDropExtension.cs" />
-        <Compile Include="Valheim\MinimapExtension.cs" />
-        <Compile Include="Valheim\ObjectDBExtension.cs" />
-        <Compile Include="Valheim\PrivateAreaExtension.cs" />
-        <Compile Include="Valheim\RecipeExtension.cs" />
-        <Compile Include="Valheim\SkillsExtension.cs" />
-        <Compile Include="Valheim\StringExtension.cs" />
-        <Compile Include="Valheim\WithPatch\RegisterObjectsInstances.cs" />
-        <Compile Include="Valheim\WithPatch\UpdateConfigOnGameStart.cs" />
-        <Compile Include="Valheim\WithPatch\ZoneSystemExtension.cs" />
-        <Compile Include="Valheim\ZNetSceneExtension.cs" />
-        <Compile Include="Valheim\ZoneSystemExtension.cs" />
         <Compile Include="VectorExtension.cs" />
         <Compile Include="Weather.cs" />
+        <Compile Include="WithPatch\RegisterObjectsInstances.cs" />
+        <Compile Include="WithPatch\UpdateConfigOnGameStart.cs" />
+        <Compile Include="WithPatch\ZDOManExtension.cs" />
+        <Compile Include="WithPatch\ZoneSystemExtension.cs" />
+        <Compile Include="ZNetSceneExtension.cs" />
+        <Compile Include="ZoneSystemExtension.cs" />
     </ItemGroup>
     <ItemGroup>
         <Content Include="Documentstion.md" />

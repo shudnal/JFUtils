@@ -2,9 +2,11 @@
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
+using JFUtils.Valheim;
+using JFUtils.Valheim.WithPatch;
 using ServerSync;
 
-namespace JFUtils.Valheim;
+namespace JFUtils;
 
 public static class ModBase
 {
@@ -21,6 +23,9 @@ public static class ModBase
     private static BaseUnityPlugin plugin;
     private static bool sendDebugMessagesToHud;
     private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
+
+    public static void EnableObjectsInstances() => ObjectsInstances.enabled = true;
+    public static void EnableImportantZDOs() => ZDOManExtension.enabled = true;
 
     public static AssetBundle LoadAssetBundle(string filename)
     {
@@ -39,10 +44,13 @@ public static class ModBase
         ModName = modName;
         ModAuthor = modAuthor;
         ModVersion = modVersion;
+
+        //TODO: auto grab modName, modAuthor, modVersion and modGUID
+
         ModGUID = CreateModGUID(ModName, ModAuthor);
         if (modGUID != ModGUID)
         {
-            DebugError("Mod GUID doesn't match required format: com.ModAuthor.ModName");
+            DebugError($"Mod GUID doesn't match required format: com.ModAuthor.ModName - Got: {modGUID}, ecpected: {ModGUID}");
             ModGUID = modGUID;
         }
 
@@ -69,6 +77,7 @@ public static class ModBase
     public static T GetPlugin<T>() where T : BaseUnityPlugin => (T)plugin;
     public static BaseUnityPlugin GetPlugin() => plugin;
 
+    public static void RegisterImportantZDO(int prefabHash) => ZDOManExtension.RegisterImportantZDO(prefabHash);
 
     #region Debug
 

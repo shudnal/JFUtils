@@ -26,9 +26,9 @@ public static class GameObjectExtension
     public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component =>
         gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
 
-    public static Component AddComponentCopy<T>(this GameObject gameObject, T duplicate) where T : Component
+    public static T AddComponentCopy<T>(this GameObject gameObject, T duplicate) where T : Component
     {
-        var target = gameObject.AddComponent(duplicate.GetType());
+        var target = gameObject.AddComponent(duplicate.GetType()) as T;
         const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 
         foreach (var propertyInfo in duplicate.GetType().GetProperties(flags))

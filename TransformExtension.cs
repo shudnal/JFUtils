@@ -7,7 +7,7 @@ public static class TransformExtension
     public static float DistanceXZ(this Transform transform, Transform other) =>
         Utils.DistanceXZ(transform.position, other.position);
 
-    public static float DistanceXZ(this Transform transform, Component otherGameObject) =>
+    public static float DistanceXZ(this Transform transform, Component otherGameObject) => 
         Utils.DistanceXZ(transform.position, otherGameObject.transform.position);
 
     public static float DistanceXZ(this Transform transform, GameObject otherGameObject) =>

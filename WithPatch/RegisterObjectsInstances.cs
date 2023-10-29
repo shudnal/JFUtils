@@ -22,6 +22,7 @@ internal static class RegisterObjectsInstances
     [HarmonyPatch(typeof(Bed), nameof(Bed.Awake))]
     private static void AddToInstanceCollection(MonoBehaviour __instance)
     {
+        if (ObjectsInstances.enabled == false) return;
         __instance.StartCoroutine(enumerator(__instance));
     }
 
@@ -60,6 +61,8 @@ internal static class RegisterObjectsInstances
 
 public static class ObjectsInstances
 {
+    internal static bool enabled = false;
+
     static ObjectsInstances()
     {
         new Harmony("Extensions.Valheim.WithPatch.RegisterObjectsInstances").PatchAll(typeof(RegisterObjectsInstances));

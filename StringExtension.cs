@@ -9,4 +9,6 @@ public static class StringExtension
         return str.Split(new[] { ", " },
             StringSplitOptions.RemoveEmptyEntries).ToList();
     }
+    
+    public static string Localize(this string str) { return Localization.instance.Localize(str); }
 }

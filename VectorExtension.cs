@@ -50,4 +50,6 @@ public static class VectorExtension
 
     public static float DistanceXZ(this Vector3 pos, GameObject otherPos) =>
         Utils.DistanceXZ(pos, otherPos.transform.position);
+
+    public static Vector2i GetZone(this Vector3 pos) => ZoneSystem.instance.GetZone(pos);
 }

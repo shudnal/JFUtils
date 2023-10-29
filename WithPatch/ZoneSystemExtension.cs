@@ -7,9 +7,9 @@ public class ZoneSystemExtension
     [HarmonyPrefix, HarmonyWrapSafe]
     private static bool Patch(ZoneLocation location, Vector3 pos)
     {
-        if (!Valheim.ZoneSystemExtension.creatingValidPlacesForLocation) return true;
-        if (Valheim.ZoneSystemExtension.creatingPlacesFor != location.m_prefabName) return true;
-        Valheim.ZoneSystemExtension.tempPoints.Add(pos);
+        if (!JFUtils.ZoneSystemExtension.creatingValidPlacesForLocation) return true;
+        if (JFUtils.ZoneSystemExtension.creatingPlacesFor != location.m_prefabName) return true;
+        JFUtils.ZoneSystemExtension.tempPoints.Add(pos);
         return false;
     }
 }
