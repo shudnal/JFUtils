@@ -83,7 +83,6 @@ public static class ZDOManExtension
             if (!enabled) return;
             var zdo = __instance.m_objectsByID[uid];
             if (zdo == null) return;
-            Debug($"CreateNewZDO prefabHash: '{prefabHashIn}'");
             if (importantPrefabsHashes.Contains(prefabHashIn)) __instance.AddImportantZDO(zdo);
         }
 
