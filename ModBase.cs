@@ -5,6 +5,7 @@ using BepInEx.Configuration;
 using JFUtils.Valheim;
 using JFUtils.Valheim.WithPatch;
 using ServerSync;
+using UnityEngine.Networking;
 
 namespace JFUtils;
 
@@ -50,7 +51,8 @@ public static class ModBase
         ModGUID = CreateModGUID(ModName, ModAuthor);
         if (modGUID != ModGUID)
         {
-            DebugError($"Mod GUID doesn't match required format: com.ModAuthor.ModName - Got: {modGUID}, ecpected: {ModGUID}");
+            DebugError(
+                $"Mod GUID doesn't match required format: com.ModAuthor.ModName - Got: {modGUID}, ecpected: {ModGUID}");
             ModGUID = modGUID;
         }
 
@@ -78,6 +80,29 @@ public static class ModBase
     public static BaseUnityPlugin GetPlugin() => plugin;
 
     public static void RegisterImportantZDO(int prefabHash) => ZDOManExtension.RegisterImportantZDO(prefabHash);
+
+    public static void LoadImageFromWEB(string url, Action<Sprite> callback)
+    {
+        if (string.IsNullOrWhiteSpace(url) || !Uri.TryCreate(url, UriKind.Absolute, out _)) return;
+
+        GetPlugin().StartCoroutine(LoadImage_IEnumerator(url, callback));
+    }
+
+    private static IEnumerator LoadImage_IEnumerator(string url, Action<Sprite> callback)
+    {
+        using UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+        yield return request.SendWebRequest();
+        if (request.result is UnityWebRequest.Result.Success)
+        {
+            Texture2D texture = DownloadHandlerTexture.GetContent(request);
+            if (texture.width == 0 || texture.height == 0) yield break;
+            Texture2D temp = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+            temp.SetPixels(texture.GetPixels());
+            temp.Apply();
+            var sprite = Sprite.Create(texture, new(0, 0, texture.width, texture.height), new(0.5f, 0.5f));
+            callback?.Invoke(sprite);
+        }
+    }
 
     #region Debug
 
