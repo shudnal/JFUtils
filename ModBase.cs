@@ -26,7 +26,7 @@ public static class ModBase
     private static ConfigEntry<bool> sendDebugMessagesToHudConfig;
 
     public static void EnableObjectsInstances() => ObjectsInstances.enabled = true;
-    public static void EnableImportantZDOs() => ZDOManExtension.enabled = true;
+    public static void EnableImportantZDOs() => ImportantZDOs.enabled = true;
 
     public static AssetBundle LoadAssetBundle(string filename)
     {
@@ -79,7 +79,8 @@ public static class ModBase
     public static T GetPlugin<T>() where T : BaseUnityPlugin => (T)plugin;
     public static BaseUnityPlugin GetPlugin() => plugin;
 
-    public static void RegisterImportantZDO(int prefabHash) => ZDOManExtension.RegisterImportantZDO(prefabHash);
+    public static void RegisterImportantZDO(int prefabHash, bool trackCreationTime = false) =>
+        ImportantZDOs.RegisterImportantZDO(prefabHash, trackCreationTime);
 
     public static void LoadImageFromWEB(string url, Action<Sprite> callback)
     {

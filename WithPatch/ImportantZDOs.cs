@@ -3,10 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace JFUtils.Valheim;
 
-public static class ZDOManExtension
+public static class ImportantZDOs
 {
+    public static readonly int ZDO_Created_Hash = "JFUtils_ZDOcreated_Hash".GetStableHashCode();
     private static readonly ConditionalWeakTable<ZDOMan, ZDOManAdditionalData> data = new();
-    public static HashSet<int> importantPrefabsHashes = new();
+    public static List<ImportantZDO_Settings> importantPrefabsHashes = new();
     public static bool enabled = false;
 
     private static ZDOManAdditionalData GetAdditionalData(this ZDOMan zdoMan) { return data.GetOrCreateValue(zdoMan); }
@@ -23,25 +24,25 @@ public static class ZDOManExtension
             .importantZDOs.Where(zdo => zdo.GetPrefab() == prefabHash).ToHashSet();
     }
 
-    public static void RegisterImportantZDO(int prefabHash)
+    public static void RegisterImportantZDO(int prefabHash, bool trackCreationTime)
     {
-        if (!enabled) throw new UnityException("ZDOManExtension is disabled.");
-        if (importantPrefabsHashes.Contains(prefabHash))
+        if (!enabled) throw new UnityException("ImportantZDOs is disabled.");
+        if (importantPrefabsHashes.Any(x => x.prefabHash == prefabHash))
             DebugWarning($"{prefabHash} is already registered as important ZDO.");
-        importantPrefabsHashes.Add(prefabHash);
+        importantPrefabsHashes.Add(new(prefabHash, trackCreationTime));
     }
 
-    public static void RegisterImportantZDO(this ZDOMan zdoMan, int prefabHash)
+    public static void RegisterImportantZDO(this ZDOMan zdoMan, int prefabHash, bool trackCreationTime = false)
     {
-        if (!enabled) throw new UnityException("ZDOManExtension is disabled.");
-        RegisterImportantZDO(prefabHash);
+        if (!enabled) throw new UnityException("ImportantZDOs is disabled.");
+        RegisterImportantZDO(prefabHash, trackCreationTime);
     }
 
     private static bool AddImportantZDO(this ZDOMan zdoMan, ZDO zdo)
     {
-        if (!enabled) throw new UnityException("ZDOManExtension is disabled.");
+        if (!enabled) throw new UnityException("ImportantZDOs is disabled.");
         var prefab = zdo.GetPrefab();
-        if (prefab != 0 && !importantPrefabsHashes.Contains(prefab))
+        if (prefab != 0 && !importantPrefabsHashes.Any(x => x.prefabHash == prefab))
             throw new UnityException(
                 "Tried to add an important ZDO that isn't registered. Make sure to call RegisterImportantZDO() first.");
 
@@ -50,7 +51,7 @@ public static class ZDOManExtension
 
     private static bool RemoveImportantZDO(this ZDOMan zdoMan, ZDO zdo)
     {
-        if (!enabled) throw new UnityException("ZDOManExtension is disabled.");
+        if (!enabled) throw new UnityException("ImportantZDOs is disabled.");
         return zdoMan.GetAllImportantZDOs().Remove(zdo);
     }
 
@@ -72,7 +73,7 @@ public static class ZDOManExtension
             if (!enabled) return;
             var zdo = __instance.GetZDO(uid);
             if (zdo == null) return;
-            if (importantPrefabsHashes.Contains(zdo.GetPrefab()))
+            if (importantPrefabsHashes.Any(x => x.prefabHash == zdo.GetPrefab()))
                 __instance.RemoveImportantZDO(zdo);
         }
 
@@ -83,7 +84,13 @@ public static class ZDOManExtension
             if (!enabled) return;
             var zdo = __instance.m_objectsByID[uid];
             if (zdo == null) return;
-            if (importantPrefabsHashes.Contains(prefabHashIn)) __instance.AddImportantZDO(zdo);
+            var zdoSettings = importantPrefabsHashes.Find(x => x.prefabHash == prefabHashIn);
+            if (zdoSettings != null)
+            {
+                if (zdoSettings.trackCreationTime) zdo.Set(ZDO_Created_Hash, DateTimeOffset.UtcNow.Ticks);
+
+                __instance.AddImportantZDO(zdo);
+            }
         }
 
         [HarmonyPatch(typeof(ZDOMan), nameof(ZDOMan.Load), typeof(BinaryReader), typeof(int))]
@@ -92,8 +99,14 @@ public static class ZDOManExtension
         {
             if (!enabled) return;
             foreach (var zdo in __instance.m_objectsByID.Values)
-                if (importantPrefabsHashes.Contains(zdo.GetPrefab()))
+                if (importantPrefabsHashes.Any(x => x.prefabHash == zdo.GetPrefab()))
                     __instance.AddImportantZDO(zdo);
         }
     }
+}
+
+public record ImportantZDO_Settings(int prefabHash, bool trackCreationTime)
+{
+    public int prefabHash { get; } = prefabHash;
+    public bool trackCreationTime { get; } = trackCreationTime;
 }

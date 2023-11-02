@@ -127,7 +127,7 @@
         <Compile Include="Weather.cs" />
         <Compile Include="WithPatch\RegisterObjectsInstances.cs" />
         <Compile Include="WithPatch\UpdateConfigOnGameStart.cs" />
-        <Compile Include="WithPatch\ZDOManExtension.cs" />
+        <Compile Include="WithPatch\ImportantZDOs.cs" />
         <Compile Include="WithPatch\ZoneSystemExtension.cs" />
         <Compile Include="ZNetSceneExtension.cs" />
         <Compile Include="ZoneSystemExtension.cs" />

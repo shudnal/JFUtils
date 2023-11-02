@@ -1,4 +1,5 @@
-﻿using Debug = UnityEngine.Debug;
+﻿using static JFUtils.Valheim.WithPatch.ObjectsInstances;
+using Debug = UnityEngine.Debug;
 
 namespace JFUtils.Valheim.WithPatch;
 
@@ -22,7 +23,7 @@ internal static class RegisterObjectsInstances
     [HarmonyPatch(typeof(Bed), nameof(Bed.Awake))]
     private static void AddToInstanceCollection(MonoBehaviour __instance)
     {
-        if (ObjectsInstances.enabled == false) return;
+        if (enabled == false) return;
         __instance.StartCoroutine(enumerator(__instance));
     }
 
@@ -66,7 +67,6 @@ public static class ObjectsInstances
     static ObjectsInstances()
     {
         new Harmony("Extensions.Valheim.WithPatch.RegisterObjectsInstances").PatchAll(typeof(RegisterObjectsInstances));
-        Debug("RegisterObjectsInstances patched");
     }
 
     public static List<Pickable> AllPickables => RegisterObjectsInstances.AllPickables;
