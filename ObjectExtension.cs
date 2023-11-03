@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#nullable enable
+using System.Reflection;
 using JetBrains.Annotations;
 
 namespace JFUtils;
@@ -6,9 +7,11 @@ namespace JFUtils;
 /// <summary>
 ///     Helpful Unity Object extensions.
 /// </summary>
+/// 
+[PublicAPI]
 public static class ObjectExtension
 {
-    public static string GetObjectString(this object obj, bool includePrivate = false)
+    public static string GetObjectString(this object? obj, bool includePrivate = false)
     {
         if (obj == null) return "null";
 
@@ -41,10 +44,12 @@ public static class ObjectExtension
         return output;
     }
 
-    public static ZNetView? GeZNetView(this MonoBehaviour monoB)
+    public static ZNetView? GeZNetView(this MonoBehaviour? monoB)
     {
-        var value = monoB?.GetType()?.GetField("m_nview", BindingFlags.NonPublic | BindingFlags.Instance)
+        var value = monoB?.GetType()
+            .GetField("m_nview", BindingFlags.NonPublic | BindingFlags.Instance)
             ?.GetValue(monoB);
-        return value == null ? null : (ZNetView)value;
+        if (value == null) return null;
+        return (ZNetView)value;
     }
 }

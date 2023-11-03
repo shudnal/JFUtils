@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿#nullable enable
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using BepInEx;
 using BepInEx.Configuration;
-using HarmonyLib;
 using JetBrains.Annotations;
-using JFUtils;
-using UnityEngine;
+// ReSharper disable CheckNamespace
+// ReSharper disable RedundantDefaultMemberInitializer
+// ReSharper disable UnusedMember.Local
+// ReSharper disable Unity.NoNullPropagation
 
 namespace ServerSync;
 
@@ -180,7 +178,7 @@ public class ConfigSync
     {
         Name = name;
         configSyncs.Add(this);
-        new VersionCheck(this);
+        _ = new VersionCheck(this);
     }
 
     public SyncedConfigEntry<T> AddConfigEntry<T>(ConfigEntry<T> configEntry)
@@ -311,8 +309,9 @@ public class ConfigSync
                     __instance.StartCoroutine(WatchAdminListChanges());
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
+                // ignored
             }
         }
     }
@@ -854,10 +853,10 @@ public class ConfigSync
                 {
                     AccessTools.DeclaredField(typeof(ZRpc), "m_socket").SetValue(rpc, bufferingSocket.Original);
                     if (AccessTools.DeclaredMethod(typeof(ZNet), "GetPeer", new[] { typeof(ZRpc) })
-                            .Invoke(__instance, new object[] { rpc }) is ZNetPeer peer)
+                            .Invoke(__instance, new object[] { rpc }) is ZNetPeer netPeer)
                     {
                         AccessTools.DeclaredField(typeof(ZNetPeer), "m_socket")
-                            .SetValue(peer, bufferingSocket.Original);
+                            .SetValue(netPeer, bufferingSocket.Original);
                     }
                 }
 

@@ -2,13 +2,15 @@
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
-using JFUtils.Valheim;
+using JetBrains.Annotations;
 using JFUtils.Valheim.WithPatch;
+using JFUtils.WithPatch;
 using ServerSync;
 using UnityEngine.Networking;
 
 namespace JFUtils;
 
+[PublicAPI]
 public static class ModBase
 {
     public static string CreateModGUID(string ModName, string ModAuthor) => $"com.{ModAuthor}.{ModName}";
@@ -52,7 +54,7 @@ public static class ModBase
         if (modGUID != ModGUID)
         {
             DebugError(
-                $"Mod GUID doesn't match required format: com.ModAuthor.ModName - Got: {modGUID}, ecpected: {ModGUID}");
+                $"Mod GUID doesn't match required format: com.ModAuthor.ModName - Got: {modGUID}, expected: {ModGUID}");
             ModGUID = modGUID;
         }
 
@@ -79,8 +81,8 @@ public static class ModBase
     public static T GetPlugin<T>() where T : BaseUnityPlugin => (T)plugin;
     public static BaseUnityPlugin GetPlugin() => plugin;
 
-    public static void RegisterImportantZDO(int prefabHash, bool trackCreationTime = false) =>
-        ImportantZDOs.RegisterImportantZDO(prefabHash, trackCreationTime);
+    public static void RegisterImportantZDO(ImportantZDO_Settings ZDO_settings) =>
+        ImportantZDOs.RegisterImportantZDO(ZDO_settings);
 
     public static void LoadImageFromWEB(string url, Action<Sprite> callback)
     {

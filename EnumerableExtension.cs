@@ -48,10 +48,16 @@ public static class EnumerableExtension
     public static string GetString<T>(this IEnumerable<T> list, string separator = ", ") =>
         string.Join(separator, list);
 
-    [Obsolete]
-    public static void TryAdd<T>(this List<T> sequence, T item)
+
+    public static bool TryAdd<T>(this List<T> sequence, T item)
     {
-        if (!sequence.Contains(item)) sequence.Add(item);
+        if (!sequence.Contains(item))
+        {
+            sequence.Add(item);
+            return true;
+        }
+
+        return false;
     }
 
     public static T Next<T>(this List<T> list, T current)
