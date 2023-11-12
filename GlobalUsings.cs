@@ -3,6 +3,7 @@ global using System.Collections;
 global using System.Collections.Generic;
 global using System.Linq;
 global using HarmonyLib;
+global using JetBrains.Annotations;
 global using UnityEngine;
 global using static UnityEngine.Object;
 global using Object = UnityEngine.Object;

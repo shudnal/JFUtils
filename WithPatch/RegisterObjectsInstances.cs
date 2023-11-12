@@ -1,7 +1,6 @@
-﻿using static JFUtils.Valheim.WithPatch.ObjectsInstances;
-using Debug = UnityEngine.Debug;
+﻿using static JFUtils.WithPatch.ObjectsInstances;
 
-namespace JFUtils.Valheim.WithPatch;
+namespace JFUtils.WithPatch;
 
 [HarmonyPatch]
 internal static class RegisterObjectsInstances
@@ -60,13 +59,14 @@ internal static class RegisterObjectsInstances
     }
 }
 
+[PublicAPI]
 public static class ObjectsInstances
 {
-    internal static bool enabled = false;
+    internal static bool enabled;
 
     static ObjectsInstances()
     {
-        new Harmony("Extensions.Valheim.WithPatch.RegisterObjectsInstances").PatchAll(typeof(RegisterObjectsInstances));
+        new Harmony("JFUtils.Valheim.RegisterObjectsInstances").PatchAll(typeof(RegisterObjectsInstances));
     }
 
     public static List<Pickable> AllPickables => RegisterObjectsInstances.AllPickables;

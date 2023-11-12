@@ -2,7 +2,6 @@
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
-using JetBrains.Annotations;
 using JFUtils.Valheim.WithPatch;
 using JFUtils.WithPatch;
 using ServerSync;

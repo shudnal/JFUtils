@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 
 // ReSharper disable RedundantDefaultMemberInitializer
 

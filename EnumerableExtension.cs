@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Debug = UnityEngine.Debug;
+﻿using Debug = UnityEngine.Debug;
 
 namespace JFUtils;
 

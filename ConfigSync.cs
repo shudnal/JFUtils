@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using BepInEx;
 using BepInEx.Configuration;
-using JetBrains.Annotations;
+
 // ReSharper disable CheckNamespace
 // ReSharper disable RedundantDefaultMemberInitializer
 // ReSharper disable UnusedMember.Local

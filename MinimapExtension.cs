@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using static Minimap;
+﻿using static Minimap;
 
 namespace JFUtils;
 
