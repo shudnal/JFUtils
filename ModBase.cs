@@ -146,7 +146,12 @@ public static class ModBase
     public static ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,
         bool synchronizedSetting = true)
     {
-        var configEntry = plugin.Config.Bind(group, name, value, description);
+        ConfigDescription extendedDescription =
+            new(
+                description.Description +
+                (synchronizedSetting ? " [Synced with Server]" : " [Not Synced with Server]"),
+                description.AcceptableValues, description.Tags);
+        var configEntry = plugin.Config.Bind(group, name, value, extendedDescription);
 
         var syncedConfigEntry = configSync.AddConfigEntry(configEntry);
         syncedConfigEntry.SynchronizedConfig = synchronizedSetting;
