@@ -99,6 +99,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="BiomeExtension.cs" />
+        <Compile Include="ColorExtension.cs" />
         <Compile Include="ConfigSync.cs" />
         <Compile Include="ConfigurationManagerAttributes.cs" />
         <Compile Include="InventoryExtension.cs" />
