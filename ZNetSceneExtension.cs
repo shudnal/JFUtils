@@ -13,4 +13,10 @@ public static class ZNetSceneExtension
 
     public static Character GetCharacter(this ZNetScene zNetScene, int hash) =>
         zNetScene.GetPrefab(hash)?.GetComponent<Character>();
+
+    public static List<GameObject> GetPrefabs(this ZNetScene zNetScene, params string[] names) =>
+        names.Select(zNetScene.GetPrefab).ToList();
+
+    public static List<GameObject> GetPrefabs(this ZNetScene zNetScene, params int[] names) =>
+        names.Select(zNetScene.GetPrefab).ToList();
 }
