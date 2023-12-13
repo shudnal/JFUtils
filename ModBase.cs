@@ -5,6 +5,7 @@ using BepInEx.Configuration;
 using JFUtils.Valheim.WithPatch;
 using JFUtils.WithPatch;
 using ServerSync;
+using Steamworks;
 using UnityEngine.Networking;
 
 namespace JFUtils;
@@ -232,6 +233,8 @@ public static class ModBase
             DebugError(e, showInConsole: false);
         }
     }
+
+    public static ulong GetSteamID() => SteamUser.GetSteamID().m_SteamID;
 
     public static bool IsAdmin => configSync.IsAdmin || (ZNet.instance && ZNet.instance.IsServer());
 }

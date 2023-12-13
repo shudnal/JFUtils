@@ -28,7 +28,7 @@ internal static class RegisterObjectsInstances
 
     private static IEnumerator enumerator<T>(T component) where T : MonoBehaviour
     {
-        var m_nview = component.GeZNetView();
+        var m_nview = component.GetZNetView();
         yield return new WaitWhile(() => m_nview.m_ghost || !m_nview.IsValid());
 
         if (component is Pickable pickable)

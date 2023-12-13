@@ -17,4 +17,23 @@ public static class StringExtension
     {
         return text.IsGood() ? Localization.instance.Localize(text, args) : string.Empty;
     }
+
+    public static string HumanizeString(this string str)
+    {
+        string result = "";
+        str = str.Replace("$", "");
+        bool first = true;
+        foreach (char c in str)
+        {
+            if (!first && char.IsUpper(c))
+                result += " " + c.ToString().ToLower();
+            else if (c.Equals('_'))
+                result += " ";
+            else result += c;
+
+            first = false;
+        }
+
+        return result;
+    }
 }

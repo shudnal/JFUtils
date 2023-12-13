@@ -43,7 +43,7 @@ public static class ObjectExtension
         return output;
     }
 
-    public static ZNetView? GeZNetView(this MonoBehaviour? monoB)
+    public static ZNetView? GetZNetView(this MonoBehaviour? monoB)
     {
         var value = monoB?.GetType()
             .GetField("m_nview", BindingFlags.NonPublic | BindingFlags.Instance)
