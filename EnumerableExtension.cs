@@ -2,6 +2,7 @@
 
 namespace JFUtils;
 
+[PublicAPI]
 public static class EnumerableExtension
 {
     [CanBeNull]
@@ -113,5 +114,10 @@ public static class EnumerableExtension
         }
 
         return current;
+    }
+
+    public static IEnumerable<string> RemoveEmptyEntries(this IEnumerable<string> list)
+    {
+        return list.Where(x => x.IsGood());
     }
 }
