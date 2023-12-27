@@ -1,4 +1,6 @@
-﻿namespace JFUtils;
+﻿using System.Text.RegularExpressions;
+
+namespace JFUtils;
 
 [PublicAPI]
 public static class StringExtension
@@ -36,4 +38,8 @@ public static class StringExtension
 
         return result;
     }
+
+    public static string[] SmartSplit(this string str, string separator = " ",
+        RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) =>
+        Regex.Split(str, $"{separator}(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", options);
 }

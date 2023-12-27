@@ -1,7 +1,7 @@
-﻿namespace JFUtils.Valheim.WithPatch;
+﻿namespace JFUtils.WithPatch;
 
 [HarmonyPatch]
-public class ZoneSystemExtension
+public class ZoneSystemExtension_Patch
 {
     [HarmonyPatch(typeof(ZoneSystem), nameof(ZoneSystem.RegisterLocation))]
     [HarmonyPrefix, HarmonyWrapSafe]

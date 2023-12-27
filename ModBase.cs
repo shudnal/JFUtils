@@ -76,6 +76,14 @@ public static class ModBase
         plugin.Config.SaveOnConfigSet = true;
         plugin.Config.Save();
         if (pathAll) harmony.PatchAll();
+        else
+        {
+            harmony.PatchAll(typeof(GlobalRPCs));
+            harmony.PatchAll(typeof(ImportantZDOs));
+            harmony.PatchAll(typeof(RegisterObjectsInstances));
+            harmony.PatchAll(typeof(UpdateConfigOnGameStart));
+            harmony.PatchAll(typeof(ZoneSystemExtension_Patch));
+        }
     }
 
     public static T GetPlugin<T>() where T : BaseUnityPlugin => (T)plugin;
@@ -120,7 +128,7 @@ public static class ModBase
 
     public static void DebugError(object msg, bool showWriteToDev = true, bool showInConsole = false)
     {
-        if (showInConsole && Console.IsVisible()) Console.instance.AddString($"<color=red>[{ModName}] {msg}</color>");
+        if (showInConsole && Console.IsVisible()) Console.instance.AddString($"<color=F8733C>[{ModName}] {msg}</color>");
         if (showWriteToDev) msg += " Write to the developer and moderator if this happens often.";
         plugin.Logger.LogError(msg);
     }

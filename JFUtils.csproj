@@ -129,10 +129,14 @@
         <Compile Include="TransformExtension.cs" />
         <Compile Include="VectorExtension.cs" />
         <Compile Include="Weather.cs" />
+        <Compile Include="WithPatch\GlobalRPCs.cs" />
         <Compile Include="WithPatch\RegisterObjectsInstances.cs" />
         <Compile Include="WithPatch\UpdateConfigOnGameStart.cs" />
         <Compile Include="WithPatch\ImportantZDOs.cs" />
-        <Compile Include="WithPatch\ZoneSystemExtension.cs" />
+        <Compile Include="WithPatch\ZoneSystemExtension_Patch.cs" />
+        <Compile Include="zdos\CustomZDO.cs" />
+        <Compile Include="zdos\PlayerZDO.cs" />
+        <Compile Include="zdos\ZDOExtension.cs" />
         <Compile Include="ZNetSceneExtension.cs" />
         <Compile Include="ZoneSystemExtension.cs" />
     </ItemGroup>
