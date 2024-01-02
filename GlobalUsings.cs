@@ -17,3 +17,4 @@ global using static Heightmap;
 global using static Heightmap.Biome;
 global using static Skills;
 global using static Skills.SkillDef;
+global using static UnityEngine.Mathf;

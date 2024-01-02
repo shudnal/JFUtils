@@ -55,4 +55,6 @@ public static class VectorExtension
 
     public static bool IsInRangeOf(this Vector3 pos, Vector3 center, float radius) =>
         Vector3.Distance(center, pos) <= radius;
+
+    public static Vector3 abs(this Vector3 pos) => new(Abs(pos.x), Abs(pos.y), Abs(pos.z));
 }

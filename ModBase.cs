@@ -126,18 +126,19 @@ public static class ModBase
             Player.m_localPlayer.Message(MessageHud.MessageType.TopLeft, msg.ToString());
     }
 
-    public static void DebugError(object msg, bool showWriteToDev = true, bool showInConsole = false)
+    public static void DebugError(object msg, bool showWriteToDev = false, bool showInConsole = false)
     {
-        if (showInConsole && Console.IsVisible()) Console.instance.AddString($"<color=F8733C>[{ModName}] {msg}</color>");
+        if (showInConsole && Console.IsVisible())
+            Console.instance.AddString($"<color=F8733C>[{ModName}] {msg}</color>");
         if (showWriteToDev) msg += " Write to the developer and moderator if this happens often.";
         plugin.Logger.LogError(msg);
     }
 
-    public static void DebugWarning(object msg, bool showWriteToDev = true, bool showInConsole = false)
+    public static void DebugWarning(object msg, bool showWriteToDev = false, bool showInConsole = false)
     {
         if (showInConsole && Console.IsVisible())
             Console.instance.AddString($"<color=yellow>[{ModName}] {msg}</color>");
-        if (showWriteToDev) msg += "Write to the developer and moderator if this happens often.";
+        if (showWriteToDev) msg += " Write to the developer and moderator if this happens often.";
         plugin.Logger.LogWarning(msg);
     }
 
