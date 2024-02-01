@@ -1,5 +1,7 @@
 ﻿using BepInEx.Configuration;
 
+namespace JFUtils;
+
 /// <summary>
 ///     Class that specifies how a setting should be displayed inside the ConfigurationManager settings window.
 ///     Usage:
@@ -23,7 +25,8 @@
 ///     You can optionally remove fields that you won't use from this class, it's the same as leaving them null.
 /// </remarks>
 #pragma warning disable 0169, 0414, 0649
-internal sealed class ConfigurationManagerAttributes
+[PublicAPI]
+public sealed class ConfigurationManagerAttributes
 {
     /// <summary>
     ///     Custom setting draw action that allows polling keyboard input with the Input class.
