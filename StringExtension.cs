@@ -39,7 +39,18 @@ public static class StringExtension
         return result;
     }
 
-    public static string[] SmartSplit(this string str, string separator = " ",
-        RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant) =>
-        Regex.Split(str, $"{separator}(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", options);
+    public static string[] SmartSplit(this string str,
+        string separator = " ",
+        string ignoreStart = "\"",
+        string ignoreEnd = "\"",
+        RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)
+    {
+        string escapedSeparator = Regex.Escape(separator);
+        string escapedIgnoreStart = Regex.Escape(ignoreStart);
+        string escapedIgnoreEnd = Regex.Escape(ignoreEnd);
+
+        string pattern =
+            $"{escapedSeparator}(?=(?:[^{escapedIgnoreStart}]*{escapedIgnoreStart}[^{escapedIgnoreEnd}]*{escapedIgnoreEnd})*[^{escapedIgnoreStart}]*$)";
+        return Regex.Split(str, pattern, options);
+    }
 }

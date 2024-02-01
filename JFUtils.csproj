@@ -100,13 +100,16 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="BezierCurve.cs" />
         <Compile Include="BiomeExtension.cs" />
+        <Compile Include="BoundsExtensions.cs" />
         <Compile Include="CharacterExtension.cs" />
         <Compile Include="ColorExtension.cs" />
         <Compile Include="ConfigSync.cs" />
         <Compile Include="ConfigurationManagerAttributes.cs" />
         <Compile Include="InventoryExtension.cs" />
         <Compile Include="ItemDropExtension.cs" />
+        <Compile Include="LineRendererSmoother.cs" />
         <Compile Include="MinimapExtension.cs" />
         <Compile Include="ModBase.cs" />
         <Compile Include="ConsoleCommandException.cs" />
