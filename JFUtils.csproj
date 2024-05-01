@@ -40,9 +40,6 @@
         <Reference Include="assembly_guiutils">
             <HintPath>..\Utils\assembly_guiutils_publicized.dll</HintPath>
         </Reference>
-        <Reference Include="assembly_steamworks">
-          <HintPath>..\Utils\assembly_steamworks_publicized.dll</HintPath>
-        </Reference>
         <Reference Include="assembly_utils">
             <HintPath>..\Utils\assembly_utils_publicized.dll</HintPath>
         </Reference>
@@ -51,6 +48,9 @@
         </Reference>
         <Reference Include="BepInEx">
             <HintPath>..\..\..\Steam\steamapps\common\Valheim\BepInEx\core\BepInEx.dll</HintPath>
+        </Reference>
+        <Reference Include="com.rlabrecque.steamworks.net">
+          <HintPath>..\..\..\Steam\steamapps\common\Valheim\valheim_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
         </Reference>
         <Reference Include="CreatureManager">
             <HintPath>..\Utils\CreatureManager.dll</HintPath>
@@ -124,6 +124,7 @@
         <Compile Include="RecipeExtension.cs" />
         <Compile Include="RectExtension.cs" />
         <Compile Include="RendererExtension.cs" />
+        <Compile Include="RomanNumeralExtensions.cs" />
         <Compile Include="SimpleVector2.cs" />
         <Compile Include="SimpleVector3.cs" />
         <Compile Include="SkillsExtension.cs" />

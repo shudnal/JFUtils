@@ -120,4 +120,18 @@ public static class EnumerableExtension
     {
         return list.Where(x => x.IsGood());
     }
+
+    [CanBeNull]
+    public static List<T> GetRemaining<T>(this List<T> original, List<T> part)
+    {
+        var originalCount = original.Count;
+        var partCount = part.Count;
+        if (partCount > originalCount) return null;
+
+        for (int i = 0; i < partCount; i++)
+            if (!original[i].Equals(part[i]))
+                return null;
+
+        return original.GetRange(partCount, originalCount - partCount);
+    }
 }
