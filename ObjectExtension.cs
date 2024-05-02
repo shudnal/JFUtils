@@ -51,4 +51,21 @@ public static class ObjectExtension
         if (value == null) return null;
         return (ZNetView)value;
     }
+
+    static bool IsMemberwiseCloneOf(this object copy, object original)
+    {
+        var type = copy.GetType();
+
+        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+            .Where(x => x.FieldType.IsValueType).ToList();
+        foreach (var fieldInfo in fields)
+        {
+            var valueOfCopy = fieldInfo.GetValue(copy);
+            var valueOfOriginal = fieldInfo.GetValue(original);
+
+            if (!valueOfCopy.Equals(valueOfOriginal)) return false;
+        }
+
+        return true;
+    }
 }
