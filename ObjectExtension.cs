@@ -52,12 +52,12 @@ public static class ObjectExtension
         return (ZNetView)value;
     }
 
-    static bool IsMemberwiseCloneOf(this object copy, object original)
+    public static bool IsCloneOf(this object copy, object original)
     {
         var type = copy.GetType();
-
         var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
             .Where(x => x.FieldType.IsValueType).ToList();
+        
         foreach (var fieldInfo in fields)
         {
             var valueOfCopy = fieldInfo.GetValue(copy);
