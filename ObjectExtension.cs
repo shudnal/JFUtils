@@ -52,17 +52,19 @@ public static class ObjectExtension
         return (ZNetView)value;
     }
 
-    public static bool IsCloneOf(this object copy, object original)
+    public static bool IsCloneOf(this object copy, object original, params string[] ignoreFields)
     {
         var type = copy.GetType();
         var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+            .Where(x => !ignoreFields.Contains(x.Name))
             .Where(x => x.FieldType.IsValueType).ToList();
-        
+
         foreach (var fieldInfo in fields)
         {
             var valueOfCopy = fieldInfo.GetValue(copy);
             var valueOfOriginal = fieldInfo.GetValue(original);
 
+            Debug($"{fieldInfo.Name} {valueOfCopy}<->{valueOfOriginal}({valueOfCopy.Equals(valueOfOriginal)})");
             if (!valueOfCopy.Equals(valueOfOriginal)) return false;
         }
 
