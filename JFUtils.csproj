@@ -107,6 +107,7 @@
         <Compile Include="ColorExtension.cs" />
         <Compile Include="ConfigSync.cs" />
         <Compile Include="ConfigurationManagerAttributes.cs" />
+        <Compile Include="DamageTextExtension.cs" />
         <Compile Include="InventoryExtension.cs" />
         <Compile Include="ItemDropExtension.cs" />
         <Compile Include="LineRendererSmoother.cs" />
