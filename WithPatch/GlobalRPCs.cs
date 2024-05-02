@@ -27,6 +27,7 @@ public static class GlobalRPCs
         if (!mainCamera || Hud.IsUserHidden()) return;
         var pos = pkg.ReadVector3();
         var msg = pkg.ReadString();
+        var color = pkg.ReadString();
         float distance = Vector3.Distance(mainCamera.transform.position, pos);
         if (distance > inst.m_maxTextDistance) return;
 
@@ -38,10 +39,10 @@ public static class GlobalRPCs
         };
         worldTextInstance.m_textField = worldTextInstance.m_gui.GetComponent<TMP_Text>();
         inst.m_worldTexts.Add(worldTextInstance);
-        worldTextInstance.m_textField.color = Color.white;
+        worldTextInstance.m_textField.color = ColorUtility.TryParseHtmlString(color, out var c) ? c : Color.white;
         worldTextInstance.m_textField.fontSize =
             distance <= inst.m_smallFontDistance ? inst.m_largeFontSize : inst.m_smallFontSize;
-        worldTextInstance.m_textField.text = msg.Localize();
+        worldTextInstance.m_textField.text = msg;
         worldTextInstance.m_timer = 0.0f;
     }
 }
