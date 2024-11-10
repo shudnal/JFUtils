@@ -32,7 +32,9 @@ public static class ZoneSystemExtension
             .Select(x => (x.Key, x.Value))
             .ToArray();
 
-    public static List<Vector3> CreateValidPlacesForLocation(this ZoneSystem zoneSystem, string key, int count)
+    // Location regeneration code was moved into Coroutine
+    // This version is quick fix for GroundReset mod where this method is not called
+    /*public static List<Vector3> CreateValidPlacesForLocation(this ZoneSystem zoneSystem, string key, int count)
     {
         tempPoints.Clear();
         var location = instance.GetLocation(key);
@@ -56,7 +58,7 @@ public static class ZoneSystemExtension
         creatingValidPlacesForLocation = false;
 
         return tempPoints;
-    }
+    }*/
 
     public static Task<List<ZDO>> GetWorldObjectsAsync(this ZoneSystem zoneSystem,
         params Func<ZDO, bool>[] customFilters)

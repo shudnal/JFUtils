@@ -51,7 +51,7 @@ public static class VectorExtension
     public static float DistanceXZ(this Vector3 pos, GameObject otherPos) =>
         Utils.DistanceXZ(pos, otherPos.transform.position);
 
-    public static Vector2i GetZone(this Vector3 pos) => ZoneSystem.instance.GetZone(pos);
+    public static Vector2i GetZone(this Vector3 pos) => ZoneSystem.GetZone(pos);
 
     public static bool IsInRangeOf(this Vector3 pos, Vector3 center, float radius) =>
         Vector3.Distance(center, pos) <= radius;

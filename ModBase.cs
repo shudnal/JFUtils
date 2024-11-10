@@ -119,7 +119,7 @@ public static class ModBase
 
     public static void Debug(object msg, bool showInHud = false, bool showInConsole = false)
     {
-        plugin.Logger.LogInfo(msg);
+        ZLog.Log($"[{ModName}]: {msg}");
         msg = $"[{ModName}] {msg}";
         if (showInConsole && Console.IsVisible()) Console.instance.AddString(msg.ToString());
         if (showInHud && Player.m_localPlayer && Player.m_debugMode && sendDebugMessagesToHud)
@@ -131,7 +131,7 @@ public static class ModBase
         if (showInConsole && Console.IsVisible())
             Console.instance.AddString($"<color=F8733C>[{ModName}] {msg}</color>");
         if (showWriteToDev) msg += " Write to the developer and moderator if this happens often.";
-        plugin.Logger.LogError(msg);
+        ZLog.LogError($"[{ModName}]: {msg}");
     }
 
     public static void DebugWarning(object msg, bool showWriteToDev = false, bool showInConsole = false)
@@ -139,7 +139,7 @@ public static class ModBase
         if (showInConsole && Console.IsVisible())
             Console.instance.AddString($"<color=yellow>[{ModName}] {msg}</color>");
         if (showWriteToDev) msg += " Write to the developer and moderator if this happens often.";
-        plugin.Logger.LogWarning(msg);
+        ZLog.LogWarning($"[{ModName}]: {msg}");
     }
 
     #endregion
